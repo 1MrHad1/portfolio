@@ -2,14 +2,17 @@
 import Layout from '../layouts/Layout.astro';
 
 const sites: [string, 'sh' | 'wp' | 'cr'][] = [
-  ['fameninja.com', 'wp'], ['agency.fameninja.com', 'wp'], ['artsncraftsindia.com', 'wp'],
-  ['gogrowth.in', 'wp'], ['alhawaeanetwork.com', 'wp'], ['acquifin.us', 'wp'], ['conqurecondo.com', 'wp'],
+  ['fameninja.com', 'wp'], ['artsncraftsindia.com', 'wp'], ['gogrowth.in', 'wp'],
+  ['alhawaeanetwork.com', 'wp'], ['acquifin.us', 'wp'], ['conqurecondo.com', 'wp'],
   ['kesariananta.com', 'sh'], ['banterkitchen.com', 'sh'], ['mimamsaa.com', 'sh'], ['stravage.in', 'sh'],
   ['the-culture.in', 'sh'], ['unnavu.com', 'sh'], ['anythingvegan.ae', 'sh'], ['vasavi.co', 'sh'],
-  ['breezyla.com', 'sh'], ['swingsaga.com', 'sh'], ['craftdelights.in', 'sh'], ['koora.com.au', 'sh'],
+  ['swingsaga.com', 'sh'], ['craftdelights.in', 'sh'], ['koora.com.au', 'sh'],
   ['thecryptoupdates.com', 'cr'], ['theblockopedia.com', 'cr'], ['tbpmedia.io', 'cr'], ['defidraft.com', 'cr'],
 ];
 const LABEL = { sh: 'Shopify', wp: 'WordPress', cr: 'Crypto / Media' };
+// Sites without a live screenshot (down or bot-protected) fall back to a lettered tile.
+const NO_THUMB = new Set(['conqurecondo.com', 'vasavi.co', 'artsncraftsindia.com', 'unnavu.com']);
+const slugify = (d: string) => d.replace(/[^a-z0-9]/g, '-');
 
 const jobs = [
   { yr: 'Current', role: 'Developer', org: 'Rankkking', desc: 'Connected Claude Code to WordPress sites via MCP to automate SEO best practices — audits, broken-link detection, sitemap updates. Built AI-assisted multi-site publishing with human approval gates, plus high-converting funnels in custom code and FlexiFunnels.' },
@@ -83,7 +86,7 @@ const projects = [
         <p class="lead">Lately I pair clean, maintainable code with <strong>AI automation</strong> — connecting coding agents to live sites to run technical SEO, publishing, and QA at network scale.</p>
         <div class="metrics">
           <div class="metric"><div class="v"><em>5</em>+</div><div class="l">years building for the web</div></div>
-          <div class="metric"><div class="v"><em>23</em></div><div class="l">client sites shipped</div></div>
+          <div class="metric"><div class="v"><em>21</em></div><div class="l">client sites shipped</div></div>
           <div class="metric"><div class="v"><em>98</em></div><div class="l">site publishing network</div></div>
           <div class="metric"><div class="v"><em>40</em>+</div><div class="l">WordPress sites automated</div></div>
         </div>
@@ -127,17 +130,26 @@ const projects = [
       </section>
 
       <section id="work">
-        <p class="sh"><span class="n">03</span> Client work · 23 sites</p>
+        <p class="sh"><span class="n">03</span> Client work · 21 sites</p>
         <div class="filters" role="group" aria-label="Filter by platform">
           <button class="filt" data-f="all" aria-pressed="true">all</button>
-          <button class="filt" data-f="sh" aria-pressed="false">Shopify · 12</button>
-          <button class="filt" data-f="wp" aria-pressed="false">WordPress · 7</button>
+          <button class="filt" data-f="sh" aria-pressed="false">Shopify · 11</button>
+          <button class="filt" data-f="wp" aria-pressed="false">WordPress · 6</button>
           <button class="filt" data-f="cr" aria-pressed="false">Crypto / Media · 4</button>
         </div>
         <div class="grid" id="grid">
           {sites.map(([dom, plat]) => (
-            <a class="card" data-plat={plat} href={`https://${dom}`} rel="noopener">
-              <div class="thumb" style={`background:var(--${plat}-bg)`}>{dom[0].toUpperCase()}</div>
+            <a class="card" data-plat={plat} href={`https://${dom}`} rel="noopener" target="_blank">
+              {NO_THUMB.has(dom)
+                ? <div class="thumb" style={`background:var(--${plat}-bg)`}>{dom[0].toUpperCase()}</div>
+                : <img
+                    class="thumb-img"
+                    src={`/thumbs/${slugify(dom)}.jpg`}
+                    alt={`Screenshot of the ${dom} website`}
+                    width="600" height="375"
+                    loading="lazy" decoding="async"
+                    style={`background:var(--${plat}-bg)`}
+                  />}
               <div class="body">
                 <div class="dom">{dom}</div>
                 <span class={`badge b-${plat}`}>{LABEL[plat]}</span>
@@ -199,7 +211,7 @@ const projects = [
     const root = document.documentElement;
     const toggle = document.getElementById('themeToggle');
     function current() {
-      return root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      return root.getAttribute('data-theme') || 'dark';
     }
     toggle?.addEventListener('click', () => {
       const next = current() === 'dark' ? 'light' : 'dark';

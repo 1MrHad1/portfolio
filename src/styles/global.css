@@ -3,39 +3,8 @@
    Refined Minimal · teal accent · dark-first with light toggle
    ============================================================ */
 
-/* ---- Light palette (default :root) ---- */
+/* ---- Dark palette (default :root — dark by default) ---- */
 :root{
-  --bg:#f6f7f7; --elev:#ffffff; --panel:#ffffff; --panel-2:#eef1f1;
-  --line:rgba(12,15,20,.10); --line-2:rgba(12,15,20,.18);
-  --tx:#14171b; --tx2:#4c535b; --tx3:#7b828b;
-  --acc:#0d9488; --acc-soft:#0f766e; --acc-tint:rgba(13,148,136,.10); --acc-line:rgba(13,148,136,.34);
-  --sh-tx:#1a7d3a; --sh-bg:rgba(30,140,64,.10); --sh-bd:rgba(30,140,64,.28);
-  --wp-tx:#155fc0; --wp-bg:rgba(28,104,214,.09); --wp-bd:rgba(28,104,214,.26);
-  --cr-tx:#6d3fb2; --cr-bg:rgba(120,70,190,.10); --cr-bd:rgba(120,70,190,.28);
-  --glow:.55;
-  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  --mono:ui-monospace,"SF Mono",Menlo,"JetBrains Mono",monospace;
-  --wrap:1120px;
-  color-scheme:light;
-}
-
-/* ---- Dark palette: system-dark when no explicit choice ---- */
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0a0b0d; --elev:#0f1115; --panel:#14171c; --panel-2:#181b21;
-    --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.15);
-    --tx:#e9eaed; --tx2:#a3a8b2; --tx3:#6a6f79;
-    --acc:#2dd4bf; --acc-soft:#14b8a6; --acc-tint:rgba(45,212,191,.12); --acc-line:rgba(45,212,191,.35);
-    --sh-tx:#8fe0a2; --sh-bg:rgba(104,192,122,.13); --sh-bd:rgba(104,192,122,.30);
-    --wp-tx:#a9d2ff; --wp-bg:rgba(79,159,242,.13); --wp-bd:rgba(79,159,242,.30);
-    --cr-tx:#dcc6ff; --cr-bg:rgba(199,156,255,.14); --cr-bd:rgba(199,156,255,.32);
-    --glow:1;
-    color-scheme:dark;
-  }
-}
-
-/* ---- Dark palette: explicit toggle wins in both directions ---- */
-:root[data-theme="dark"]{
   --bg:#0a0b0d; --elev:#0f1115; --panel:#14171c; --panel-2:#181b21;
   --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.15);
   --tx:#e9eaed; --tx2:#a3a8b2; --tx3:#6a6f79;
@@ -44,7 +13,23 @@
   --wp-tx:#a9d2ff; --wp-bg:rgba(79,159,242,.13); --wp-bd:rgba(79,159,242,.30);
   --cr-tx:#dcc6ff; --cr-bg:rgba(199,156,255,.14); --cr-bd:rgba(199,156,255,.32);
   --glow:1;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,"JetBrains Mono",monospace;
+  --wrap:1120px;
   color-scheme:dark;
+}
+
+/* ---- Light palette (only when explicitly toggled) ---- */
+:root[data-theme="light"]{
+  --bg:#f6f7f7; --elev:#ffffff; --panel:#ffffff; --panel-2:#eef1f1;
+  --line:rgba(12,15,20,.10); --line-2:rgba(12,15,20,.18);
+  --tx:#14171b; --tx2:#4c535b; --tx3:#7b828b;
+  --acc:#0d9488; --acc-soft:#0f766e; --acc-tint:rgba(13,148,136,.10); --acc-line:rgba(13,148,136,.34);
+  --sh-tx:#1a7d3a; --sh-bg:rgba(30,140,64,.10); --sh-bd:rgba(30,140,64,.28);
+  --wp-tx:#155fc0; --wp-bg:rgba(28,104,214,.09); --wp-bd:rgba(28,104,214,.26);
+  --cr-tx:#6d3fb2; --cr-bg:rgba(120,70,190,.10); --cr-bd:rgba(120,70,190,.28);
+  --glow:.55;
+  color-scheme:light;
 }
 
 *{box-sizing:border-box}
@@ -128,6 +113,7 @@ p.lead strong{color:var(--tx);font-weight:500}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .2s,border-color .2s}
 .card:hover{transform:translateY(-3px);border-color:var(--line-2)}
 .thumb{height:104px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:34px;font-weight:600;color:var(--tx);border-bottom:1px solid var(--line)}
+.thumb-img{width:100%;height:104px;object-fit:cover;object-position:top center;border-bottom:1px solid var(--line)}
 .card .body{padding:13px 15px 15px}
 .card .dom{font-size:14px;font-weight:500;letter-spacing:-.01em;word-break:break-all}
 .badge{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:6px;border:1px solid}
