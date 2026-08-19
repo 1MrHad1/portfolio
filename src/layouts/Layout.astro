@@ -1,0 +1,66 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = 'Haseeb Ahmed Danish — Senior Developer',
+  description = 'Senior developer with 5+ years building conversion-optimized Shopify, WordPress and React platforms, plus AI automation pipelines for content and technical SEO at network scale.',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL('/og.png', Astro.site).href;
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Haseeb Ahmed Danish',
+  jobTitle: 'Senior Developer',
+  email: 'mailto:umaildanish776@gmail.com',
+  telephone: '+91-9113021043',
+  url: canonical,
+  sameAs: ['https://github.com/1MrHad1'],
+  knowsAbout: ['Shopify', 'Liquid', 'WordPress', 'WooCommerce', 'React', 'Technical SEO', 'Conversion Rate Optimization', 'Automation'],
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'Maharaja Institute of Technology, Mysore',
+  },
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+      })();
+    </script>
+
+    <script type="application/ld+json" set:html={JSON.stringify(personLd)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

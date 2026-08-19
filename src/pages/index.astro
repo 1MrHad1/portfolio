@@ -1,0 +1,223 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const sites: [string, 'sh' | 'wp' | 'cr'][] = [
+  ['fameninja.com', 'wp'], ['agency.fameninja.com', 'wp'], ['artsncraftsindia.com', 'wp'],
+  ['gogrowth.in', 'wp'], ['alhawaeanetwork.com', 'wp'], ['acquifin.us', 'wp'], ['conqurecondo.com', 'wp'],
+  ['kesariananta.com', 'sh'], ['banterkitchen.com', 'sh'], ['mimamsaa.com', 'sh'], ['stravage.in', 'sh'],
+  ['the-culture.in', 'sh'], ['unnavu.com', 'sh'], ['anythingvegan.ae', 'sh'], ['vasavi.co', 'sh'],
+  ['breezyla.com', 'sh'], ['swingsaga.com', 'sh'], ['craftdelights.in', 'sh'], ['koora.com.au', 'sh'],
+  ['thecryptoupdates.com', 'cr'], ['theblockopedia.com', 'cr'], ['tbpmedia.io', 'cr'], ['defidraft.com', 'cr'],
+];
+const LABEL = { sh: 'Shopify', wp: 'WordPress', cr: 'Crypto / Media' };
+
+const jobs = [
+  { yr: 'Current', role: 'Developer', org: 'Rankkking', desc: 'Connected Claude Code to WordPress sites via MCP to automate SEO best practices — audits, broken-link detection, sitemap updates. Built AI-assisted multi-site publishing with human approval gates, plus high-converting funnels in custom code and FlexiFunnels.' },
+  { yr: '2024 — 2026', role: 'Developer', org: 'GoGrowth Labs', desc: 'Built and maintained WooCommerce and Shopify solutions. Revamped breezyla.com, saving the client $1,000/month by implementing premium features natively. Applied CRO-driven UI/UX and technical SEO to lift conversions and rankings.' },
+  { yr: '2023 — 2024', role: 'WordPress Developer', org: 'ArtsnCraftsIndia', desc: 'Optimized checkout flows and product pages, significantly reducing cart abandonment and increasing conversion through streamlined experiences.' },
+  { yr: '2023', role: 'WordPress Developer', org: 'Peoplewoo', desc: 'Implemented UI/UX designs and developed custom page templates for distinct sections across various WordPress sites.' },
+  { yr: '2022 — 2023', role: 'Front-End / WordPress Developer', org: 'Design Script', desc: 'Designed and built landing pages, e-commerce sites, and blogs for multiple clients.' },
+];
+
+const automations = [
+  {
+    title: 'MainWP multi-site content network',
+    tag: 'n8n · Cloudflare Workers · MainWP REST · LLM · Telegram',
+    desc: 'One order fans out to a <span class="k">98-site WordPress network</span>. An AI quality-gate screens each article, a Cloudflare Worker reverse-proxy relay defeats the origin bot-wall, drafts land on every selected site, and a single Telegram approval publishes them all — with graceful per-site failure handling.',
+    flow: ['order form', 'Google Doc', 'AI QA gate', 'draft ×98', 'Telegram approve', 'publish all'],
+    hot: [2, 4],
+    result: 'one order → one approval → live across the network in minutes, not hours.',
+  },
+  {
+    title: 'TheCryptoUpdates + TheBlockopedia order engine',
+    tag: 'n8n · WordPress REST · Rank Math · LLM · Tally',
+    desc: 'Client orders become <span class="k">scheduled, SEO-ready posts</span> on two high-traffic crypto publications — parse and route the target, ingest the doc, AI QA, auto-process the featured image, write Rank Math meta with IST scheduling, then a Telegram approval to publish. Includes automatic duplicate-title de-duplication.',
+    flow: ['Tally order', 'resolve site', 'AI QA gate', 'image + SEO', 'approve', 'schedule / publish'],
+    hot: [2, 4],
+    result: 'hands-off publishing with a human gate and consistent SEO metadata.',
+  },
+  {
+    title: 'AI-driven SEO & security via MCP',
+    tag: 'Claude (MCP) · WordPress · GSC · GA4',
+    desc: 'Connected Claude to <span class="k">40+ live WordPress sites</span> via Model Context Protocol servers to run technical SEO audits, security hardening, broken-link detection, and sitemap/metadata updates — with GSC + GA4 wired in for an automated SEO command-center.',
+    flow: ['Claude + MCP', '40+ WP sites', 'audit + fix', 'GSC / GA4 report'],
+    hot: [2],
+    result: 'network-wide audits and fixes executed programmatically.',
+  },
+];
+
+const projects = [
+  { title: 'Task Tracker App', desc: 'A focused task manager with persistent state and a clean, fast UI.', link: 'https://profound-cheesecake-894687.netlify.app', label: 'live demo ↗' },
+  { title: 'Weather App', desc: 'Live conditions and forecasts powered by the OpenWeather API.', link: 'https://poetic-sorbet-b71dc5.netlify.app', label: 'live demo ↗' },
+  { title: 'Workout Buddy', desc: 'Full-stack MERN app for logging and tracking workouts.', link: 'https://github.com/1MrHad1/WorkOut-Buddy-MERN-', label: 'source ↗' },
+];
+---
+<Layout>
+  <div class="shell">
+    <aside>
+      <p class="eyebrow">Portfolio · 2026</p>
+      <h1 class="name">Haseeb Ahmed Danish</h1>
+      <p class="role">Senior Developer</p>
+      <p class="sub"><b>Shopify</b> · <b>WordPress</b> · <b>React</b><br />conversion-first e-commerce &amp; funnels</p>
+      <nav class="side" aria-label="Sections">
+        <a href="#about">about</a>
+        <a href="#skills">skills</a>
+        <a href="#experience">experience</a>
+        <a href="#work">client work</a>
+        <a href="#automation">automation</a>
+        <a href="#projects">projects</a>
+        <a href="#contact">contact</a>
+      </nav>
+      <div class="side-foot">
+        <div class="socials">
+          <a href="https://github.com/1MrHad1">github</a>
+          <a href="mailto:umaildanish776@gmail.com">email</a>
+        </div>
+        <button id="themeToggle" class="tgl" aria-label="Toggle light and dark theme" title="Toggle theme">◐</button>
+      </div>
+    </aside>
+
+    <main>
+      <section id="about">
+        <p class="lead"><strong>Results-driven developer with 5+ years</strong> building high-performing e-commerce and service platforms. I specialize in <strong>Shopify</strong> — custom themes, Liquid, and headless/React storefronts — alongside WordPress &amp; WooCommerce and conversion-optimized landing pages built to capture leads and drive revenue.</p>
+        <p class="lead">Lately I pair clean, maintainable code with <strong>AI automation</strong> — connecting coding agents to live sites to run technical SEO, publishing, and QA at network scale.</p>
+        <div class="metrics">
+          <div class="metric"><div class="v"><em>5</em>+</div><div class="l">years building for the web</div></div>
+          <div class="metric"><div class="v"><em>23</em></div><div class="l">client sites shipped</div></div>
+          <div class="metric"><div class="v"><em>98</em></div><div class="l">site publishing network</div></div>
+          <div class="metric"><div class="v"><em>40</em>+</div><div class="l">WordPress sites automated</div></div>
+        </div>
+      </section>
+
+      <section id="skills">
+        <p class="sh"><span class="n">01</span> Skills &amp; competencies</p>
+        <div class="skills">
+          <div class="skcard">
+            <h3><i class="ic">◆</i>Core technologies</h3>
+            <div class="chips">
+              {['Shopify (Liquid)','WordPress','WooCommerce','React','JavaScript','PHP','HTML5','CSS3','MySQL'].map((c) => <span class="chip">{c}</span>)}
+            </div>
+          </div>
+          <div class="skcard">
+            <h3><i class="ic">◆</i>Specializations</h3>
+            <div class="chips">
+              {['Custom themes','Liquid templating','Headless storefronts','Checkout customization','Technical SEO','CRO','Schema markup','Reverse proxy'].map((c) => <span class="chip">{c}</span>)}
+            </div>
+          </div>
+          <div class="skcard span2">
+            <h3><i class="ic">◆</i>Advanced automation &amp; AI engineering</h3>
+            <div class="chips">
+              {['Claude + MCP','n8n pipelines','MainWP network','Cloudflare Workers','LLM quality-gates','Telegram approvals','GSC + GA4 via MCP','WP → Next.js migrations'].map((c) => <span class="chip">{c}</span>)}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience">
+        <p class="sh"><span class="n">02</span> Experience</p>
+        {jobs.map((j) => (
+          <div class="job">
+            <div class="yr">{j.yr}</div>
+            <div>
+              <h3>{j.role} — <span>{j.org}</span></h3>
+              <p>{j.desc}</p>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      <section id="work">
+        <p class="sh"><span class="n">03</span> Client work · 23 sites</p>
+        <div class="filters" role="group" aria-label="Filter by platform">
+          <button class="filt" data-f="all" aria-pressed="true">all</button>
+          <button class="filt" data-f="sh" aria-pressed="false">Shopify · 12</button>
+          <button class="filt" data-f="wp" aria-pressed="false">WordPress · 7</button>
+          <button class="filt" data-f="cr" aria-pressed="false">Crypto / Media · 4</button>
+        </div>
+        <div class="grid" id="grid">
+          {sites.map(([dom, plat]) => (
+            <a class="card" data-plat={plat} href={`https://${dom}`} rel="noopener">
+              <div class="thumb" style={`background:var(--${plat}-bg)`}>{dom[0].toUpperCase()}</div>
+              <div class="body">
+                <div class="dom">{dom}</div>
+                <span class={`badge b-${plat}`}>{LABEL[plat]}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section id="automation">
+        <p class="sh"><span class="n">04</span> Automation &amp; AI engineering</p>
+        <p class="lead" style="margin-bottom:26px">Flagship builds where I turned repetitive publishing and SEO work into reliable, human-approved pipelines.</p>
+        {automations.map((a) => (
+          <div class="autocard">
+            <h3><i class="ic">▣</i> {a.title}</h3>
+            <p class="tag">{a.tag}</p>
+            <p class="desc" set:html={a.desc} />
+            <div class="flow">
+              {a.flow.map((n, i) => (
+                <>
+                  <span class={a.hot.includes(i) ? 'node hot' : 'node'}>{n}</span>
+                  {i < a.flow.length - 1 && <span class="arrow">→</span>}
+                </>
+              ))}
+            </div>
+            <p class="stackline">Result — <b>{a.result}</b></p>
+          </div>
+        ))}
+      </section>
+
+      <section id="projects">
+        <p class="sh"><span class="n">05</span> Personal projects</p>
+        <div class="proj">
+          {projects.map((p) => (
+            <div class="pcard">
+              <div class="ico">◈</div>
+              <h3>{p.title}</h3>
+              <p>{p.desc}</p>
+              <a class="plink" href={p.link} rel="noopener">{p.label}</a>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <footer id="contact">
+        <h2>Let's build something that converts.</h2>
+        <p>Open to Shopify, WordPress, and React work — from custom storefronts to automation pipelines. The fastest way to reach me:</p>
+        <div class="contacts">
+          <a class="cbtn" href="mailto:umaildanish776@gmail.com">✦ umaildanish776@gmail.com</a>
+          <a class="cbtn" href="tel:+919113021043">✦ +91 91130 21043</a>
+          <a class="cbtn" href="https://github.com/1MrHad1" rel="noopener">✦ github.com/1MrHad1</a>
+        </div>
+        <p class="foot-note">B.E. Computer Science · Maharaja Institute of Technology, Mysore // Built with Astro · deployed on Netlify.</p>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+    function current() {
+      return root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    }
+    toggle?.addEventListener('click', () => {
+      const next = current() === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+
+    const grid = document.getElementById('grid');
+    document.querySelectorAll('.filt').forEach((b) => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.filt').forEach((x) => x.setAttribute('aria-pressed', 'false'));
+        b.setAttribute('aria-pressed', 'true');
+        const f = b.getAttribute('data-f');
+        grid?.querySelectorAll('.card').forEach((c) => {
+          const show = f === 'all' || c.getAttribute('data-plat') === f;
+          (c as HTMLElement).style.display = show ? '' : 'none';
+        });
+      });
+    });
+  </script>
+</Layout>
