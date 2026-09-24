@@ -1,17 +1,30 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ScrollReveal from '../components/ScrollReveal.tsx';
+import VelocityMarquee from '../components/VelocityMarquee.tsx';
+import CountUp from '../components/CountUp.tsx';
 
-const sites: [string, 'sh' | 'wp' | 'cr'][] = [
-  ['fameninja.com', 'wp'], ['artsncraftsindia.com', 'wp'], ['gogrowth.in', 'wp'],
-  ['alhawaeanetwork.com', 'wp'], ['acquifin.us', 'wp'],
+const sites: [string, 'sh' | 'wp' | 'cr' | 'rc'][] = [
+  ['fameninja.com', 'rc'],
+  ['pr.01wire.com', 'sh'], ['shop.rizely.net', 'sh'],
   ['kesariananta.com', 'sh'], ['banterkitchen.com', 'sh'], ['mimamsaa.com', 'sh'], ['stravage.in', 'sh'],
   ['the-culture.in', 'sh'], ['anythingvegan.ae', 'sh'],
   ['swingsaga.com', 'sh'], ['craftdelights.in', 'sh'], ['koora.com.au', 'sh'],
-  ['thecryptoupdates.com', 'cr'], ['theblockopedia.com', 'cr'], ['tbpmedia.io', 'cr'], ['defidraft.com', 'cr'],
+  ['artsncraftsindia.com', 'wp'], ['gogrowth.in', 'wp'],
+  ['alhawaeanetwork.com', 'wp'], ['acquifin.us', 'wp'],
+  ['thecryptoupdates.com', 'cr'], ['theblockopedia.com', 'cr'], ['theblockopedia.com/wiki', 'cr'],
+  ['tbpmedia.io', 'cr'], ['defidraft.com', 'cr'],
 ];
-const LABEL = { sh: 'Shopify', wp: 'WordPress', cr: 'Crypto / Media' };
-// Sites without a live screenshot fall back to a lettered tile (none currently).
+const LABEL = { sh: 'Shopify', wp: 'WordPress', cr: 'Crypto / Media', rc: 'React' };
+// Sites without a screenshot yet fall back to a lettered tile.
+// Drop a 600x375 jpg in public/thumbs/<slug>.jpg to replace one.
 const NO_THUMB = new Set<string>([]);
+
+const stack = [
+  'Shopify Liquid', 'Headless storefronts', 'React 19', 'Astro islands', 'Next.js',
+  'WordPress + WooCommerce', 'Claude MCP', 'n8n pipelines', 'Cloudflare Workers',
+  'Technical SEO', 'CRO', 'Schema markup',
+];
 const slugify = (d: string) => d.replace(/[^a-z0-9]/g, '-');
 
 const jobs = [
@@ -82,15 +95,23 @@ const projects = [
 
     <main>
       <section id="about">
-        <p class="lead"><strong>Results-driven developer with 5+ years</strong> building high-performing e-commerce and service platforms. I specialize in <strong>Shopify</strong> — custom themes, Liquid, and headless/React storefronts — alongside WordPress &amp; WooCommerce and conversion-optimized landing pages built to capture leads and drive revenue.</p>
+        <ScrollReveal
+          client:visible
+          className="lead-reveal"
+          text="Results-driven developer with 5+ years building high-performing e-commerce and service platforms. I specialize in *Shopify* — custom themes, Liquid, and headless/*React* storefronts — alongside WordPress and WooCommerce and conversion-optimized landing pages built to capture leads and drive revenue."
+        />
         <p class="lead">Lately I pair clean, maintainable code with <strong>AI automation</strong> — connecting coding agents to live sites to run technical SEO, publishing, and QA at network scale.</p>
         <div class="metrics">
-          <div class="metric"><div class="v"><em>5</em>+</div><div class="l">years building for the web</div></div>
-          <div class="metric"><div class="v"><em>18</em></div><div class="l">client sites shipped</div></div>
-          <div class="metric"><div class="v"><em>98</em></div><div class="l">site publishing network</div></div>
-          <div class="metric"><div class="v"><em>40</em>+</div><div class="l">WordPress sites automated</div></div>
+          <CountUp client:visible to={5} suffix="+" label="years building for the web" />
+          <CountUp client:visible to={21} label="client sites shipped" />
+          <CountUp client:visible to={98} label="site publishing network" />
+          <CountUp client:visible to={40} suffix="+" label="WordPress sites automated" />
         </div>
       </section>
+
+      <div class="techstrip">
+        <VelocityMarquee client:visible items={stack} />
+      </div>
 
       <section id="skills">
         <p class="sh"><span class="n">01</span> Skills &amp; competencies</p>
@@ -98,7 +119,7 @@ const projects = [
           <div class="skcard">
             <h3><i class="ic">◆</i>Core technologies</h3>
             <div class="chips">
-              {['Shopify (Liquid)','WordPress','WooCommerce','React','JavaScript','PHP','HTML5','CSS3','MySQL'].map((c) => <span class="chip">{c}</span>)}
+              {['Shopify (Liquid)','WordPress','WooCommerce','React 19','Next.js','Astro','TypeScript','PHP','Tailwind','MySQL'].map((c) => <span class="chip">{c}</span>)}
             </div>
           </div>
           <div class="skcard">
@@ -130,12 +151,13 @@ const projects = [
       </section>
 
       <section id="work">
-        <p class="sh"><span class="n">03</span> Client work · 18 sites</p>
+        <p class="sh"><span class="n">03</span> Client work · 21 sites</p>
         <div class="filters" role="group" aria-label="Filter by platform">
           <button class="filt" data-f="all" aria-pressed="true">all</button>
-          <button class="filt" data-f="sh" aria-pressed="false">Shopify · 9</button>
-          <button class="filt" data-f="wp" aria-pressed="false">WordPress · 5</button>
-          <button class="filt" data-f="cr" aria-pressed="false">Crypto / Media · 4</button>
+          <button class="filt" data-f="sh" aria-pressed="false">Shopify · 11</button>
+          <button class="filt" data-f="rc" aria-pressed="false">React · 1</button>
+          <button class="filt" data-f="wp" aria-pressed="false">WordPress · 4</button>
+          <button class="filt" data-f="cr" aria-pressed="false">Crypto / Media · 5</button>
         </div>
         <div class="grid" id="grid">
           {sites.map(([dom, plat]) => (
@@ -217,6 +239,15 @@ const projects = [
       const next = current() === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
       try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+
+    // Cursor spotlight on client-work cards (CSS does the drawing).
+    document.querySelectorAll<HTMLElement>('.card').forEach((c) => {
+      c.addEventListener('pointermove', (e) => {
+        const r = c.getBoundingClientRect();
+        c.style.setProperty('--mx', `${e.clientX - r.left}px`);
+        c.style.setProperty('--my', `${e.clientY - r.top}px`);
+      });
     });
 
     const grid = document.getElementById('grid');

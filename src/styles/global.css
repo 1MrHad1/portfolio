@@ -12,6 +12,7 @@
   --sh-tx:#8fe0a2; --sh-bg:rgba(104,192,122,.13); --sh-bd:rgba(104,192,122,.30);
   --wp-tx:#a9d2ff; --wp-bg:rgba(79,159,242,.13); --wp-bd:rgba(79,159,242,.30);
   --cr-tx:#dcc6ff; --cr-bg:rgba(199,156,255,.14); --cr-bd:rgba(199,156,255,.32);
+  --rc-tx:#9fe3fb; --rc-bg:rgba(97,218,251,.12); --rc-bd:rgba(97,218,251,.32);
   --glow:1;
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,"JetBrains Mono",monospace;
@@ -28,6 +29,7 @@
   --sh-tx:#1a7d3a; --sh-bg:rgba(30,140,64,.10); --sh-bd:rgba(30,140,64,.28);
   --wp-tx:#155fc0; --wp-bg:rgba(28,104,214,.09); --wp-bd:rgba(28,104,214,.26);
   --cr-tx:#6d3fb2; --cr-bg:rgba(120,70,190,.10); --cr-bd:rgba(120,70,190,.28);
+  --rc-tx:#0b6d8c; --rc-bg:rgba(11,109,140,.09); --rc-bd:rgba(11,109,140,.28);
   --glow:.55;
   color-scheme:light;
 }
@@ -120,6 +122,7 @@ p.lead strong{color:var(--tx);font-weight:500}
 .b-sh{color:var(--sh-tx);background:var(--sh-bg);border-color:var(--sh-bd)}
 .b-wp{color:var(--wp-tx);background:var(--wp-bg);border-color:var(--wp-bd)}
 .b-cr{color:var(--cr-tx);background:var(--cr-bg);border-color:var(--cr-bd)}
+.b-rc{color:var(--rc-tx);background:var(--rc-bg);border-color:var(--rc-bd)}
 
 /* automation */
 .autocard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
@@ -157,3 +160,36 @@ footer p{color:var(--tx2);max-width:52ch;margin:0 0 24px}
 .foot-note{font-family:var(--mono);font-size:11px;color:var(--tx3);margin:44px 0 0;line-height:1.6}
 
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+
+/* ============================================================
+   Added with the React/21st.dev layer
+   ============================================================ */
+
+/* Scroll-velocity tech strip (VelocityMarquee island) */
+.techstrip{
+  margin:0 0 4px;padding:13px 0;
+  border-block:1px solid var(--line);
+  background:linear-gradient(90deg,var(--panel),var(--elev),var(--panel));
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
+}
+
+/* Cursor spotlight on client-work cards — CSS only, no JS shipped */
+.card{position:relative;isolation:isolate}
+.card::after{
+  content:"";position:absolute;inset:0;z-index:2;border-radius:inherit;
+  opacity:0;transition:opacity .28s ease;pointer-events:none;
+  background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%),
+    color-mix(in srgb,var(--acc) 16%,transparent),transparent 62%);
+}
+.card:hover::after{opacity:1}
+
+/* Reveal paragraph (ScrollReveal island) inherits .lead metrics */
+.lead-reveal{font-size:19px;line-height:1.62;color:var(--tx);margin:0 0 18px}
+.lead-reveal .text-\[var\(--acc\)\]{font-weight:500}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .card::after{display:none}
+}

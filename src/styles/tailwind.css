@@ -1,0 +1,25 @@
+/* Tailwind v4 — theme + utilities only.
+   Preflight is deliberately NOT imported: it would reset the hand-written
+   styles in global.css. 21st.dev components only need the utility layer. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@source "../**/*.{astro,tsx,ts,jsx,js}";
+
+/* Bridge: expose the site's existing design tokens to Tailwind utilities,
+   so a pasted component can use bg-panel / text-acc and match the site. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-elev: var(--elev);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-line: var(--line);
+  --color-tx: var(--tx);
+  --color-tx2: var(--tx2);
+  --color-tx3: var(--tx3);
+  --color-acc: var(--acc);
+  --color-acc-soft: var(--acc-soft);
+  --font-mono: var(--mono);
+  --font-sans: var(--sans);
+}
