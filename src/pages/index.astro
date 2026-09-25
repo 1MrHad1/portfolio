@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+/* Content is unchanged from the previous build — same 18 client sites, same
+   five roles, same three pipelines. Only the register changed. */
+
 const sites: [string, 'sh' | 'wp' | 'cr'][] = [
   ['fameninja.com', 'wp'], ['artsncraftsindia.com', 'wp'], ['gogrowth.in', 'wp'],
   ['alhawaeanetwork.com', 'wp'], ['acquifin.us', 'wp'],
@@ -9,10 +12,15 @@ const sites: [string, 'sh' | 'wp' | 'cr'][] = [
   ['swingsaga.com', 'sh'], ['craftdelights.in', 'sh'], ['koora.com.au', 'sh'],
   ['thecryptoupdates.com', 'cr'], ['theblockopedia.com', 'cr'], ['tbpmedia.io', 'cr'], ['defidraft.com', 'cr'],
 ];
-const LABEL = { sh: 'Shopify', wp: 'WordPress', cr: 'Crypto / Media' };
-// Sites without a live screenshot fall back to a lettered tile (none currently).
-const NO_THUMB = new Set<string>([]);
+const LABEL = { sh: 'Shopify', wp: 'WordPress', cr: 'Media' };
 const slugify = (d: string) => d.replace(/[^a-z0-9]/g, '-');
+
+const stats = [
+  { n: '5', suffix: '+', l: 'years building' },
+  { n: '18', suffix: '', l: 'client sites shipped' },
+  { n: '98', suffix: '', l: 'site publishing network' },
+  { n: '40', suffix: '+', l: 'WordPress sites automated' },
+];
 
 const jobs = [
   { yr: 'Current', role: 'Developer', org: 'Rankkking', desc: 'Connected Claude Code to WordPress sites via MCP to automate SEO best practices — audits, broken-link detection, sitemap updates. Built AI-assisted multi-site publishing with human approval gates, plus high-converting funnels in custom code and FlexiFunnels.' },
@@ -49,122 +57,105 @@ const automations = [
   },
 ];
 
+const skills = [
+  { h: 'Core technologies', wide: false, items: ['Shopify (Liquid)','WordPress','WooCommerce','React','JavaScript','PHP','HTML5','CSS3','MySQL'] },
+  { h: 'Specializations', wide: false, items: ['Custom themes','Liquid templating','Headless storefronts','Checkout customization','Technical SEO','CRO','Schema markup','Reverse proxy'] },
+  { h: 'Automation & AI engineering', wide: true, items: ['Claude + MCP','n8n pipelines','MainWP network','Cloudflare Workers','LLM quality-gates','Telegram approvals','GSC + GA4 via MCP','WP → Next.js migrations'] },
+];
+
 const projects = [
   { title: 'Task Tracker App', desc: 'A focused task manager with persistent state and a clean, fast UI.', link: 'https://profound-cheesecake-894687.netlify.app', label: 'live demo ↗' },
   { title: 'Weather App', desc: 'Live conditions and forecasts powered by the OpenWeather API.', link: 'https://poetic-sorbet-b71dc5.netlify.app', label: 'live demo ↗' },
   { title: 'Workout Buddy', desc: 'Full-stack MERN app for logging and tracking workouts.', link: 'https://github.com/1MrHad1/WorkOut-Buddy-MERN-', label: 'source ↗' },
 ];
+
+const counts = { sh: sites.filter((s) => s[1] === 'sh').length, wp: sites.filter((s) => s[1] === 'wp').length, cr: sites.filter((s) => s[1] === 'cr').length };
 ---
 <Layout>
-  <div class="shell">
-    <aside>
-      <p class="eyebrow">Portfolio · 2026</p>
-      <h1 class="name">Haseeb Ahmed Danish</h1>
-      <p class="role">Senior Developer</p>
-      <p class="sub"><b>Shopify</b> · <b>WordPress</b> · <b>React</b><br />conversion-first e-commerce &amp; funnels</p>
-      <nav class="side" aria-label="Sections">
-        <a href="#about">about</a>
-        <a href="#skills">skills</a>
-        <a href="#experience">experience</a>
-        <a href="#work">client work</a>
-        <a href="#automation">automation</a>
-        <a href="#projects">projects</a>
-        <a href="#contact">contact</a>
+  <header class="nav">
+    <div class="wrap nav__in">
+      <a class="nav__mark" href="#top">Haseeb Ahmed Danish</a>
+      <nav class="nav__links" aria-label="Sections">
+        <a href="#work">Work</a>
+        <a href="#automation">Automation</a>
+        <a href="#experience">Experience</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
       </nav>
-      <div class="side-foot">
-        <div class="socials">
-          <a href="https://github.com/1MrHad1">github</a>
-          <a href="mailto:umaildanish776@gmail.com">email</a>
+      <button id="themeToggle" class="tgl" aria-label="Toggle light and dark theme" title="Toggle theme">◐</button>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- Marquee hero: one thought set big, mono dateline at the left margin
+         as the editorial anchor. No imagery, no CTA stack, no eyebrow. -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero__grid">
+          <p class="dateline mono">
+            <span>Senior Developer</span>
+            <span>Mysore, India</span>
+            <span>Portfolio 2026</span>
+          </p>
+          <div>
+            <h1>Storefronts that convert, and the <em>pipelines</em> that run them.</h1>
+            <p class="hero__sub">
+              Five years of Shopify, WordPress and React commerce — lately paired with
+              AI automation that publishes and audits across a 98-site network, with a
+              human approval gate on every release.
+            </p>
+          </div>
         </div>
-        <button id="themeToggle" class="tgl" aria-label="Toggle light and dark theme" title="Toggle theme">◐</button>
+
+        <div class="stats">
+          {stats.map((s) => (
+            <div class="stat">
+              <b>{s.n}<i>{s.suffix}</i></b>
+              <span>{s.l}</span>
+            </div>
+          ))}
+        </div>
       </div>
-    </aside>
+    </section>
 
-    <main>
-      <section id="about">
-        <p class="lead"><strong>Results-driven developer with 5+ years</strong> building high-performing e-commerce and service platforms. I specialize in <strong>Shopify</strong> — custom themes, Liquid, and headless/React storefronts — alongside WordPress &amp; WooCommerce and conversion-optimized landing pages built to capture leads and drive revenue.</p>
-        <p class="lead">Lately I pair clean, maintainable code with <strong>AI automation</strong> — connecting coding agents to live sites to run technical SEO, publishing, and QA at network scale.</p>
-        <div class="metrics">
-          <div class="metric"><div class="v"><em>5</em>+</div><div class="l">years building for the web</div></div>
-          <div class="metric"><div class="v"><em>18</em></div><div class="l">client sites shipped</div></div>
-          <div class="metric"><div class="v"><em>98</em></div><div class="l">site publishing network</div></div>
-          <div class="metric"><div class="v"><em>40</em>+</div><div class="l">WordPress sites automated</div></div>
+    <section id="work" class="section">
+      <div class="wrap">
+        <div class="shead">
+          <h2>Client work</h2>
+          <p class="mono" style="margin:0">18 sites shipped</p>
         </div>
-      </section>
-
-      <section id="skills">
-        <p class="sh"><span class="n">01</span> Skills &amp; competencies</p>
-        <div class="skills">
-          <div class="skcard">
-            <h3><i class="ic">◆</i>Core technologies</h3>
-            <div class="chips">
-              {['Shopify (Liquid)','WordPress','WooCommerce','React','JavaScript','PHP','HTML5','CSS3','MySQL'].map((c) => <span class="chip">{c}</span>)}
-            </div>
-          </div>
-          <div class="skcard">
-            <h3><i class="ic">◆</i>Specializations</h3>
-            <div class="chips">
-              {['Custom themes','Liquid templating','Headless storefronts','Checkout customization','Technical SEO','CRO','Schema markup','Reverse proxy'].map((c) => <span class="chip">{c}</span>)}
-            </div>
-          </div>
-          <div class="skcard span2">
-            <h3><i class="ic">◆</i>Advanced automation &amp; AI engineering</h3>
-            <div class="chips">
-              {['Claude + MCP','n8n pipelines','MainWP network','Cloudflare Workers','LLM quality-gates','Telegram approvals','GSC + GA4 via MCP','WP → Next.js migrations'].map((c) => <span class="chip">{c}</span>)}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="experience">
-        <p class="sh"><span class="n">02</span> Experience</p>
-        {jobs.map((j) => (
-          <div class="job">
-            <div class="yr">{j.yr}</div>
-            <div>
-              <h3>{j.role} — <span>{j.org}</span></h3>
-              <p>{j.desc}</p>
-            </div>
-          </div>
-        ))}
-      </section>
-
-      <section id="work">
-        <p class="sh"><span class="n">03</span> Client work · 18 sites</p>
         <div class="filters" role="group" aria-label="Filter by platform">
-          <button class="filt" data-f="all" aria-pressed="true">all</button>
-          <button class="filt" data-f="sh" aria-pressed="false">Shopify · 9</button>
-          <button class="filt" data-f="wp" aria-pressed="false">WordPress · 5</button>
-          <button class="filt" data-f="cr" aria-pressed="false">Crypto / Media · 4</button>
+          <button class="filt" data-f="all" aria-pressed="true">All · 18</button>
+          <button class="filt" data-f="sh" aria-pressed="false">Shopify · {counts.sh}</button>
+          <button class="filt" data-f="wp" aria-pressed="false">WordPress · {counts.wp}</button>
+          <button class="filt" data-f="cr" aria-pressed="false">Media · {counts.cr}</button>
         </div>
         <div class="grid" id="grid">
           {sites.map(([dom, plat]) => (
             <a class="card" data-plat={plat} href={`https://${dom}`} rel="noopener" target="_blank">
-              {NO_THUMB.has(dom)
-                ? <div class="thumb" style={`background:var(--${plat}-bg)`}>{dom[0].toUpperCase()}</div>
-                : <img
-                    class="thumb-img"
-                    src={`/thumbs/${slugify(dom)}.jpg`}
-                    alt={`Screenshot of the ${dom} website`}
-                    width="600" height="375"
-                    loading="lazy" decoding="async"
-                    style={`background:var(--${plat}-bg)`}
-                  />}
+              <img class="thumb-img" src={`/thumbs/${slugify(dom)}.jpg`}
+                   alt={`Screenshot of ${dom}`} width="600" height="375"
+                   loading="lazy" decoding="async" style={`background:var(--${plat}-bg)`} />
               <div class="body">
-                <div class="dom">{dom}</div>
+                <span class="dom">{dom}</span>
                 <span class={`badge b-${plat}`}>{LABEL[plat]}</span>
               </div>
             </a>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="automation">
-        <p class="sh"><span class="n">04</span> Automation &amp; AI engineering</p>
-        <p class="lead" style="margin-bottom:26px">Flagship builds where I turned repetitive publishing and SEO work into reliable, human-approved pipelines.</p>
+    <section id="automation" class="section section--sunk">
+      <div class="wrap">
+        <div class="shead">
+          <h2>Automation &amp; AI engineering</h2>
+          <p class="mono" style="margin:0">3 flagship pipelines</p>
+        </div>
         {automations.map((a) => (
-          <div class="autocard">
-            <h3><i class="ic">▣</i> {a.title}</h3>
+          <div class="auto">
+            <h3>{a.title}</h3>
             <p class="tag">{a.tag}</p>
             <p class="desc" set:html={a.desc} />
             <div class="flow">
@@ -175,48 +166,89 @@ const projects = [
                 </>
               ))}
             </div>
-            <p class="stackline">Result — <b>{a.result}</b></p>
+            <p class="result">Result — <b>{a.result}</b></p>
           </div>
         ))}
-      </section>
+      </div>
+    </section>
 
-      <section id="projects">
-        <p class="sh"><span class="n">05</span> Personal projects</p>
-        <div class="proj">
-          {projects.map((p) => (
-            <div class="pcard">
-              <div class="ico">◈</div>
-              <h3>{p.title}</h3>
-              <p>{p.desc}</p>
-              <a class="plink" href={p.link} rel="noopener">{p.label}</a>
+    <section id="experience" class="section">
+      <div class="wrap">
+        <div class="shead">
+          <h2>Experience</h2>
+          <p class="mono" style="margin:0">2022 — present</p>
+        </div>
+        {jobs.map((j) => (
+          <div class="job">
+            <div class="yr">{j.yr}</div>
+            <div>
+              <h3>{j.role} — <span>{j.org}</span></h3>
+              <p>{j.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section id="skills" class="section section--sunk">
+      <div class="wrap">
+        <div class="shead"><h2>Skills</h2></div>
+        <div class="skills">
+          {skills.map((s) => (
+            <div class={s.wide ? 'sk sk--wide' : 'sk'}>
+              <h3>{s.h}</h3>
+              <div class="chips">{s.items.map((c) => <span class="chip">{c}</span>)}</div>
             </div>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
 
-      <footer id="contact">
-        <h2>Let's build something that converts.</h2>
-        <p>Open to Shopify, WordPress, and React work — from custom storefronts to automation pipelines. The fastest way to reach me:</p>
-        <div class="contacts">
-          <a class="cbtn" href="mailto:umaildanish776@gmail.com">✦ umaildanish776@gmail.com</a>
-          <a class="cbtn" href="tel:+919113021043">✦ +91 91130 21043</a>
-          <a class="cbtn" href="https://github.com/1MrHad1" rel="noopener">✦ github.com/1MrHad1</a>
+    <section id="projects" class="section">
+      <div class="wrap">
+        <div class="shead"><h2>Personal projects</h2></div>
+        <div class="proj">
+          {projects.map((p) => (
+            <div class="pcard">
+              <h3>{p.title}</h3>
+              <p>{p.desc}</p>
+              <a href={p.link} rel="noopener">{p.label}</a>
+            </div>
+          ))}
         </div>
-        <p class="foot-note">B.E. Computer Science · Maharaja Institute of Technology, Mysore // Built with Astro · deployed on Netlify.</p>
-      </footer>
-    </main>
-  </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section section--sunk">
+      <div class="wrap contact">
+        <p class="mono">Contact</p>
+        <h2>Let's build something that converts.</h2>
+        <p class="lead">
+          Open to Shopify, WordPress and React work — from custom storefronts to
+          automation pipelines.
+        </p>
+        <div class="contacts">
+          <a class="cbtn cbtn--primary" href="mailto:umaildanish776@gmail.com">umaildanish776@gmail.com</a>
+          <a class="cbtn" href="tel:+919113021043">+91 91130 21043</a>
+          <a class="cbtn" href="https://github.com/1MrHad1" rel="noopener">github.com/1MrHad1</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="section--sunk">
+    <div class="wrap foot mono">
+      <span>B.E. Computer Science · Maharaja Institute of Technology, Mysore</span>
+      <span>Astro · Netlify</span>
+    </div>
+  </footer>
 
   <script>
     const root = document.documentElement;
-    const toggle = document.getElementById('themeToggle');
-    function current() {
-      return root.getAttribute('data-theme') || 'dark';
-    }
-    toggle?.addEventListener('click', () => {
-      const next = current() === 'dark' ? 'light' : 'dark';
+    document.getElementById('themeToggle')?.addEventListener('click', () => {
+      const next = (root.getAttribute('data-theme') || 'light') === 'light' ? 'dark' : 'light';
       root.setAttribute('data-theme', next);
-      try { localStorage.setItem('theme', next); } catch (e) {}
+      try { localStorage.setItem('theme', next); } catch {}
     });
 
     const grid = document.getElementById('grid');
@@ -226,8 +258,7 @@ const projects = [
         b.setAttribute('aria-pressed', 'true');
         const f = b.getAttribute('data-f');
         grid?.querySelectorAll('.card').forEach((c) => {
-          const show = f === 'all' || c.getAttribute('data-plat') === f;
-          (c as HTMLElement).style.display = show ? '' : 'none';
+          (c as HTMLElement).style.display = f === 'all' || c.getAttribute('data-plat') === f ? '' : 'none';
         });
       });
     });
