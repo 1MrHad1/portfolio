@@ -22,11 +22,21 @@ export const sites: [domain: string, platform: Platform][] = [
   ['tbpmedia.io', 'cr'], ['defidraft.com', 'cr'],
 ];
 
+export const profile = {
+  heroSub:
+    "I'm Haseeb Ahmed Danish. I build full-stack products end to end: React and Next.js apps, Shopify and WordPress stores, the APIs and databases behind them, and the AI automation that runs a 98\u2011site publishing network.",
+  heroStack: ['React', 'Next.js', 'TypeScript', 'Node.js', 'Shopify', 'WordPress', 'PostgreSQL', 'Three.js', 'n8n', 'Claude MCP'],
+  about:
+    'Five years of shipping the whole stack: *React* and *Next.js* apps, *Shopify* stores built from scratch, *WordPress* and *WooCommerce* sites, and the *Node.js* APIs, headless CMSs and *Postgres* databases behind them. Front end, back end, commerce and deployment, handled by one engineer.',
+  aboutLead:
+    'Lately I pair that with <strong>AI automation</strong>: coding agents connected to live sites over MCP, and n8n pipelines with human approval gates for publishing, technical SEO and QA at network scale.',
+};
+
 export const slugify = (d: string) => d.replace(/[^a-z0-9]/g, '-');
 
 export const stack = [
-  'Next.js', 'TypeScript', 'React 19', 'Three.js', 'Node.js', 'Strapi 5', 'Supabase', 'PostgreSQL',
-  'Shopify Liquid', 'Admin GraphQL', 'Headless commerce', 'Astro', 'Cloudflare Workers',
+  'React 19', 'Next.js', 'TypeScript', 'Node.js', 'WordPress', 'WooCommerce', 'Shopify Liquid', 'Strapi 5',
+  'Supabase', 'PostgreSQL', 'Three.js', 'Astro', 'Headless commerce', 'Cloudflare Workers',
   'n8n', 'Claude + MCP', 'GitHub Actions', 'Technical SEO',
 ];
 
@@ -93,53 +103,12 @@ export const caseStudies: CaseStudy[] = [
     thumb: '/work/01wire.jpg',
     size: 'lg',
   },
-  {
-    id: 'blockopedia',
-    name: 'Blockopedia Wiki',
-    kicker: '267-entry WordPress → Next.js migration',
-    summary:
-      'Migrating a crypto wiki onto a Next.js directory stack, gated by scripted content-integrity, parity and SEO checks.',
-    points: [
-      'Integrity audit found 94 entries whose body described a different asset than their title; quarantined with noindex instead of deleted',
-      'Parity script asserts all 267 URLs return 200 with no redirect and no thinned bodies',
-    ],
-    stack: ['Next.js', 'Prisma', 'PostgreSQL', 'Playwright'],
-    links: [{ label: 'theblockopedia.com/wiki', href: 'https://theblockopedia.com/wiki' }],
-    status: 'In progress',
-    size: 'md',
-  },
-  {
-    id: 'thread-grain',
-    name: 'Thread & Grain',
-    kicker: 'WebGL storefront walkthrough',
-    summary:
-      'A brand storefront prototype with a 3D store you walk through on scroll: product bays turn to face you and a wardrobe opens at the end.',
-    points: [
-      'Rebuilt from CSS 3D to React Three Fiber after five bugs traced to one cause: no depth buffer, camera or raycasting',
-    ],
-    stack: ['Next.js', 'React Three Fiber', 'Three.js'],
-    links: [],
-    status: 'Prototype',
-    size: 'md',
-  },
-  {
-    id: 'command-center',
-    name: 'Agency Command Center',
-    kicker: 'Next.js + Supabase team app',
-    summary:
-      'A private mission tracker for an agency team: daily missions from 60-day roadmaps, progress and ranks per person, and an owner overview.',
-    points: ['Supabase auth + Postgres with a seed script that provisions accounts and loads every roadmap'],
-    stack: ['Next.js', 'Supabase', 'PostgreSQL'],
-    links: [],
-    status: 'Internal tool',
-    size: 'md',
-  },
 ];
 
 export const capabilities = [
   { title: 'Front end', items: ['TypeScript', 'React 19', 'Next.js', 'Astro', 'Three.js / R3F', 'GSAP', 'Tailwind', 'Radix / shadcn'] },
-  { title: 'Back end & data', items: ['Node.js', 'Strapi 5', 'Supabase', 'PostgreSQL', 'Prisma', 'MySQL', 'REST + GraphQL', 'PHP'] },
-  { title: 'Commerce', items: ['Shopify Liquid', 'Custom themes', 'Admin + Storefront API', 'Headless storefronts', 'WooCommerce', 'Checkout CRO'] },
+  { title: 'Back end & data', items: ['Node.js', 'Strapi 5', 'Supabase', 'PostgreSQL', 'Prisma', 'MySQL', 'REST + GraphQL', 'PHP / WordPress'] },
+  { title: 'Commerce', items: ['Shopify Liquid', 'Custom themes', 'Admin + Storefront API', 'Headless storefronts', 'WordPress + WooCommerce', 'Checkout CRO'] },
   { title: 'Infra & delivery', items: ['Vercel', 'Netlify', 'Railway', 'Cloudflare Workers', 'GitHub Actions', 'LiteSpeed tuning'] },
   { title: 'AI & automation', items: ['Claude Code + MCP', 'n8n pipelines', 'LLM quality gates', 'Telegram approvals', 'Programmatic SEO', 'Schema markup'] },
 ];

@@ -21,8 +21,7 @@ blends between them, so scrolling never re-uploads a buffer.
 | Contact | Portal ring framing the call to action | |
 
 Sections opt in with `data-formation="n"` and `data-intensity="0–1"`. Other touches: particles
-move away from the cursor, scatter slightly when you scroll fast, and switch colours and
-blending for the light theme.
+move away from the cursor and switch colours and blending for the light theme.
 
 Performance guards:
 - `three` is loaded with a dynamic import after first paint, so it never blocks the LCP text

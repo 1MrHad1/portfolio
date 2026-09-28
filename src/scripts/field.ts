@@ -28,6 +28,8 @@ export const FORMATIONS = 5;
 const NETWORK_NODES = 98;
 const CLIENT_TILES = 21;
 const SPHERE_R = 1.55;
+const LAYER_TILT_SIN = Math.sin(0.34);
+const LAYER_TILT_COS = Math.cos(0.34);
 
 type Vec3 = [number, number, number];
 
@@ -85,9 +87,11 @@ function layers(i: number): Vec3 {
   const layer = i % 4;
   const y = (layer - 1.5) * 0.72;
   const edge = Math.random() < 0.45;
-  const r = edge ? 1.75 + Math.random() * 0.08 : 1.75 * Math.sqrt(Math.random());
+  const r = edge ? 1.5 + Math.random() * 0.06 : 1.5 * Math.sqrt(Math.random());
   const a = Math.random() * Math.PI * 2;
-  return [Math.cos(a) * r, y + (Math.random() - 0.5) * 0.03, Math.sin(a) * r * 0.55];
+  // Tilt each platter toward the camera; edge-on they read as speed streaks
+  const z = Math.sin(a) * r;
+  return [Math.cos(a) * r, y + z * LAYER_TILT_SIN + (Math.random() - 0.5) * 0.03, z * LAYER_TILT_COS];
 }
 
 function tiles(i: number): Vec3 {
@@ -144,7 +148,6 @@ const FIELD_VERT = /* glsl */ `
   uniform float uSize;
   uniform float uPixelRatio;
   uniform float uIntensity;
-  uniform float uAgitate;
   uniform vec3 uPointer;
 
   attribute vec3 aP1;
@@ -169,7 +172,8 @@ const FIELD_VERT = /* glsl */ `
 
   void main() {
     vec3 f0 = place(rotY(position, uTime * 0.07), uOff[0]);
-    vec3 f1 = place(rotY(aP1, uTime * 0.05), uOff[1]);
+    // No spin: a Y-rotation would swing the tilted platters back to edge-on
+    vec3 f1 = place(aP1 + vec3(0.0, sin(uTime * 0.6 + aP1.x * 0.7) * 0.02, 0.0), uOff[1]);
     vec3 f2 = place(pipe(), uOff[2]);
     vec3 f3 = place(aP3 + vec3(0.0, sin(uTime * 0.8 + aP3.x * 0.9) * 0.025, 0.0), uOff[3]);
     vec3 f4 = place(rotZ(aP4, uTime * 0.06), uOff[4]);
@@ -185,10 +189,10 @@ const FIELD_VERT = /* glsl */ `
     float mid = t1 * (1.0 - t1) + t2 * (1.0 - t2) + t3 * (1.0 - t3) + t4 * (1.0 - t4);
     p += dir * mid * 2.2;
 
-    // Idle shimmer, stronger while the page is scrolling fast
+    // Idle shimmer
     float k = aRnd.x * 43.0;
     p += vec3(sin(uTime * 0.9 + k), cos(uTime * 0.7 + k * 1.3), sin(uTime * 0.6 + k * 0.7))
-      * (0.018 + uAgitate * 0.22);
+      * 0.018;
 
     // Pointer pushes particles away
     vec2 d = p.xy - uPointer.xy;
@@ -274,7 +278,6 @@ const NODE_FRAG = /* glsl */ `
 
 export interface Field {
   goTo(formation: number, intensity?: number, instant?: boolean): void;
-  setAgitation(v: number): void;
   setTheme(theme: 'dark' | 'light'): void;
   destroy(): void;
 }
@@ -325,12 +328,11 @@ export function createField(canvas: HTMLCanvasElement, { reducedMotion, tween }:
     uColB: { value: new Color() },
   };
   const uIntensity = { value: 1 };
-  const uAgitate = { value: 0 };
   const uNet = { value: 1 };
   const uPointer = { value: new Vector3(0, 0, 0) };
 
   const fieldMat = new ShaderMaterial({
-    uniforms: { ...shared, uSize: { value: 22 }, uIntensity, uAgitate, uPointer },
+    uniforms: { ...shared, uSize: { value: 22 }, uIntensity, uPointer },
     vertexShader: FIELD_VERT,
     fragmentShader: FIELD_FRAG,
     transparent: true,
@@ -442,7 +444,6 @@ export function createField(canvas: HTMLCanvasElement, { reducedMotion, tween }:
   // --- loop
   let raf = 0;
   let last = performance.now();
-  let agitateTarget = 0;
   const speed = reducedMotion ? 0.12 : 1;
 
   function frame(now: number) {
@@ -451,8 +452,6 @@ export function createField(canvas: HTMLCanvasElement, { reducedMotion, tween }:
     last = now;
     shared.uTime.value += dt * speed;
 
-    uAgitate.value += (agitateTarget - uAgitate.value) * 0.08;
-    agitateTarget *= 0.9;
     uNet.value = Math.max(0, 1 - Math.min(shared.uMorph.value, 1) * 1.4) * uIntensity.value;
 
     tmp.set(pointerNdc.x, pointerNdc.y, 0.5).unproject(camera).sub(camera.position).normalize();
@@ -494,9 +493,6 @@ export function createField(canvas: HTMLCanvasElement, { reducedMotion, tween }:
       const distance = Math.abs(shared.uMorph.value - f);
       tween(shared.uMorph, f, 1.4 + Math.min(distance, 3) * 0.35);
       tween(uIntensity, intensity, 1);
-    },
-    setAgitation(v) {
-      if (!reducedMotion) agitateTarget = Math.max(agitateTarget, Math.min(Math.abs(v) / 60, 1));
     },
     setTheme,
     destroy() {

@@ -20,10 +20,12 @@ interface VelocityMarqueeProps {
   items: string[];
   /** Base drift in px per frame. Negative runs right-to-left. */
   baseVelocity?: number;
+  /** Speed up and skew with scroll velocity. Off gives a calm, constant drift. */
+  scrollBoost?: boolean;
   className?: string;
 }
 
-export function VelocityMarquee({ items, baseVelocity = -1.4, className }: VelocityMarqueeProps) {
+export function VelocityMarquee({ items, baseVelocity = -1.4, scrollBoost = true, className }: VelocityMarqueeProps) {
   const still = useReducedMotion() ?? false;
   const baseX = useMotionValue(0);
   const { scrollY } = useScroll();
@@ -38,7 +40,7 @@ export function VelocityMarquee({ items, baseVelocity = -1.4, className }: Veloc
   useAnimationFrame((_t, delta) => {
     if (still) return;
     let moveBy = direction.current * baseVelocity * (delta / 16);
-    const factor = velocityFactor.get();
+    const factor = scrollBoost ? velocityFactor.get() : 0;
     if (factor < 0) direction.current = -1;
     else if (factor > 0) direction.current = 1;
     moveBy += direction.current * moveBy * factor;
@@ -47,7 +49,7 @@ export function VelocityMarquee({ items, baseVelocity = -1.4, className }: Veloc
 
   return (
     <div className={cn('relative w-full overflow-hidden', className)}>
-      <motion.div className="flex w-max flex-nowrap" style={{ x, skewX: still ? 0 : skew }}>
+      <motion.div className="flex w-max flex-nowrap" style={{ x, skewX: still || !scrollBoost ? 0 : skew }}>
         {[0, 1, 2, 3].map((copy) => (
           <div key={copy} className="flex flex-nowrap" aria-hidden={copy > 0}>
             {items.map((item, i) => (

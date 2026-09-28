@@ -184,7 +184,6 @@ async function bootField() {
     });
   });
 
-  lenis?.on('scroll', (e: Lenis) => field?.setAgitation(e.velocity));
 }
 
 const idle = (cb: () => void) =>

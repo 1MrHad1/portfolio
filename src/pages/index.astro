@@ -14,6 +14,7 @@ import {
   jobs,
   automations,
   earlyWork,
+  profile,
 } from '../data/portfolio';
 
 const platforms = Object.keys(PLATFORM_LABEL) as Platform[];
@@ -44,16 +45,13 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
     <section class="hero wrap" data-formation="0" data-intensity="1">
       <p class="eyebrow" data-r><span class="dot"></span>Senior Full-Stack Developer · 5+ years</p>
       <h1 data-r>Full-stack systems<br />that <em>ship</em> and <em>sell</em>.</h1>
-      <p class="hero-sub" data-r>
-        I'm Haseeb Ahmed Danish. I build Next.js apps, Shopify storefronts and headless back-ends,
-        plus the AI automation that runs a 98‑site publishing network.
-      </p>
+      <p class="hero-sub" data-r>{profile.heroSub}</p>
       <div class="actions" data-r>
         <a class="btn" href="#work" data-magnetic>See the work</a>
         <a class="btn btn-ghost" href="#contact">Get in touch</a>
       </div>
       <ul class="hero-stack" data-r aria-label="Core stack">
-        {['Next.js', 'TypeScript', 'Shopify', 'Strapi', 'Supabase', 'Three.js', 'n8n', 'Claude MCP'].map((s) => <li>{s}</li>)}
+        {profile.heroStack.map((s) => <li>{s}</li>)}
       </ul>
       <p class="legend" aria-hidden="true"><b>98</b> nodes · one for every site in the network I automate</p>
       <a class="scroll-cue" href="#about" aria-label="Scroll to about"><span></span>scroll</a>
@@ -65,9 +63,9 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
         <ScrollReveal
           client:visible
           className="lead-reveal"
-          text="I've spent 5+ years shipping the whole stack: *Next.js* and *React* front ends, *Shopify* storefronts and custom themes, *Strapi* and *Supabase* back-ends on Postgres, and the migrations that move sites between them without losing a ranking."
+          text={profile.about}
         />
-        <p class="lead">Lately I pair that with <strong>AI automation</strong>: coding agents connected to live sites over MCP, and n8n pipelines with human approval gates for publishing, technical SEO and QA at network scale.</p>
+        <p class="lead" set:html={profile.aboutLead} />
       </div>
       <div class="metrics" data-r="1">
         <CountUp client:visible to={5} suffix="+" label="years shipping for the web" />
@@ -78,7 +76,7 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
     </section>
 
     <div class="techstrip">
-      <VelocityMarquee client:visible items={stack} />
+      <VelocityMarquee client:visible items={stack} baseVelocity={-0.5} scrollBoost={false} />
     </div>
 
     <!-- ================= CASE STUDIES ================= -->
