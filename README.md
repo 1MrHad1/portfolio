@@ -86,11 +86,9 @@ Submissions go to **Netlify Forms**. There's no backend and no API key. The form
 HTML with `data-netlify="true"` and a honeypot field, and JS posts it with `fetch` so the visitor
 stays on the page. If sending fails, the popup keeps what they typed and shows your email instead.
 
-After the first deploy:
-1. Netlify → **Forms**: enable form detection if it's off, then redeploy. A form named `lead`
-   should appear.
-2. **Forms → Form notifications → Add notification → Email notification**, and send it to your
-   inbox so every lead reaches you.
+Netlify setup (already done on the `portfolio-had` site): form detection is enabled, and an
+email notification sends every new submission to umaildanish776@gmail.com. Submissions show
+up under Netlify → Forms → `lead` after the first deploy that includes the form.
 
 The local dev server accepts the POST but doesn't store anything. Only the deployed site
 records submissions.
@@ -98,8 +96,8 @@ records submissions.
 ## Deploy (Netlify)
 
 `netlify.toml` sets the build command, `dist` as the publish directory, asset caching and
-security headers. After the first deploy, set `SITE` in `astro.config.mjs` to the live domain so
-canonical URLs and the sitemap use it.
+security headers. The site deploys from `main` to https://portfolio-had.netlify.app, which is
+`SITE` in `astro.config.mjs`. Change it if you add a custom domain.
 
 ## AI tooling used on this repo
 

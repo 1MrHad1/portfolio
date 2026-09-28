@@ -3,8 +3,8 @@ import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
-// UPDATE this to your real Netlify domain once deployed (used for canonical + sitemap).
-const SITE = 'https://haseebdanish.netlify.app';
+// Live Netlify site (canonical URLs + sitemap). Change this if a custom domain is added.
+const SITE = 'https://portfolio-had.netlify.app';
 
 export default defineConfig({
   site: SITE,
