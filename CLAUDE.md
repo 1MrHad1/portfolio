@@ -13,6 +13,8 @@ Astro 5 portfolio with a Three.js particle field behind every section. Static ou
 
 ## Rules
 - FameNinja is a **Next.js** site (platform `nx`), never WordPress. The QA gate enforces this.
+- Rizely and 01Wire PR are **Shopify full builds from scratch** (theme + catalogue). Don't add other
+  platforms or "programmatic" framing to them. The QA gate enforces this too.
 - Only claim what is verifiable from the repos and stores; private repos get no source link.
 - A section joins the 3D story with `data-formation` (0–4) and `data-intensity`. Formations are
   built once on the CPU and blended in the vertex shader. Never update position buffers per frame.

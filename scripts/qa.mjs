@@ -47,7 +47,12 @@ check((fnCard?.[1] ?? fnCard?.[2]) === 'nx', 'fameninja.com is tagged Next.js in
 const fnCase = html.match(/id="cs-fameninja"[\s\S]*?<\/article>/)?.[0] ?? '';
 check(fnCase.includes('Next.js') && !/WordPress developer|built (on|with) WordPress/i.test(fnCase), 'FameNinja case study describes the Next.js build');
 
-for (const name of ['Rizely', '01Wire PR']) check(html.includes(`>${name}</h3>`), `${name} case study is present`);
+for (const [id, name] of [['rizely', 'Rizely'], ['01wire', '01Wire PR']]) {
+  const block = html.match(new RegExp(`id="cs-${id}"[\\s\\S]*?</article>`))?.[0] ?? '';
+  check(block.includes(`>${name}</h3>`), `${name} case study is present`);
+  // These are Shopify builds from scratch: no other platforms, no "programmatic" framing
+  check(block.includes('Shopify full build') && !/Next\.js|Strapi|programmatic/i.test(block), `${name} is presented as a Shopify full build only`);
+}
 
 if (failures.length) {
   console.error(`\n${failures.length} QA check(s) failed.`);
