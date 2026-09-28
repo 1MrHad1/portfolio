@@ -19,6 +19,7 @@ if (!reducedMotion) {
 }
 
 document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
+  if (a.hasAttribute('data-lead')) return; // opens the lead popup instead (below)
   a.addEventListener('click', (e) => {
     const id = a.getAttribute('href');
     const target = id && id.length > 1 ? document.querySelector<HTMLElement>(id) : null;
@@ -125,6 +126,101 @@ document.querySelectorAll<HTMLButtonElement>('.filt').forEach((b) => {
     ScrollTrigger.refresh();
   });
 });
+
+// ---------- get-in-touch popup ----------
+const dialog = document.querySelector<HTMLDialogElement>('#lead');
+const leadForm = dialog?.querySelector<HTMLFormElement>('form');
+if (dialog && leadForm) {
+  const status = dialog.querySelector<HTMLElement>('.lead-status')!;
+  const done = dialog.querySelector<HTMLElement>('.lead-done')!;
+  const submit = leadForm.querySelector<HTMLButtonElement>('.lead-submit')!;
+  let opener: HTMLElement | null = null;
+
+  const open = (from: HTMLElement) => {
+    opener = from;
+    leadForm.hidden = false;
+    done.hidden = true;
+    status.textContent = '';
+    delete status.dataset.tone;
+    lenis?.stop();
+    dialog.showModal();
+    leadForm.querySelector<HTMLInputElement>('input[name="first-name"]')?.focus();
+  };
+  // Restore page scrolling and focus. Called directly on close and again from the dialog's
+  // close/cancel events (Esc), so it has to be safe to run twice.
+  const restore = () => {
+    lenis?.start();
+    if (opener) {
+      opener.focus({ preventScroll: true });
+      opener = null;
+    }
+  };
+  const close = () => {
+    dialog.close();
+    restore();
+  };
+  dialog.addEventListener('close', restore);
+  dialog.addEventListener('cancel', () => queueMicrotask(restore));
+  // Click on the backdrop (outside the card) closes it
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) close();
+  });
+  dialog.querySelectorAll('[data-lead-close]').forEach((b) => b.addEventListener('click', close));
+  document.querySelectorAll<HTMLElement>('[data-lead]').forEach((el) =>
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      open(el);
+    }),
+  );
+
+  // Show a field's error once the visitor has left it, and clear it as they fix it
+  leadForm.querySelectorAll<HTMLInputElement>('input, select, textarea').forEach((el) => {
+    el.addEventListener('blur', () => el.value && el.closest('.field')?.classList.toggle('bad', !el.checkValidity()));
+    el.addEventListener('input', () => el.checkValidity() && el.closest('.field')?.classList.remove('bad'));
+  });
+
+  leadForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fields = [...leadForm.querySelectorAll<HTMLInputElement>('input:not([type=hidden]):not([name=company-website]), select, textarea')];
+    const invalid = fields.filter((el) => !el.checkValidity());
+    fields.forEach((el) => el.closest('.field')?.classList.toggle('bad', invalid.includes(el)));
+    if (invalid.length) {
+      status.textContent = 'Please fill in the highlighted fields.';
+      status.dataset.tone = 'error';
+      invalid[0].focus();
+      return;
+    }
+
+    submit.disabled = true;
+    submit.textContent = 'Sending…';
+    status.textContent = '';
+    delete status.dataset.tone;
+    try {
+      const body = new URLSearchParams(new FormData(leadForm) as unknown as Record<string, string>).toString();
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body,
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      if (import.meta.env.DEV) console.info('[lead] Dev server accepted the POST; submissions are only stored once deployed on Netlify.');
+      leadForm.reset();
+      leadForm.hidden = true;
+      done.hidden = false;
+      done.querySelector<HTMLButtonElement>('button')?.focus();
+    } catch {
+      status.dataset.tone = 'error';
+      status.innerHTML = '';
+      const link = document.createElement('a');
+      link.href = `mailto:${dialog.dataset.email}`;
+      link.textContent = dialog.dataset.email ?? '';
+      status.append(`${dialog.dataset.error} `, link, '.');
+    } finally {
+      submit.disabled = false;
+      submit.textContent = 'Send request';
+    }
+  });
+}
 
 // ---------- theme ----------
 let field: Field | null = null;

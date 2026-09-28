@@ -305,6 +305,47 @@ main > section { padding-block: var(--rhythm) 0; scroll-margin-top: 72px; }
   [data-tilt] { transform: none; }
 }
 
+/* ---------- get-in-touch popup ---------- */
+.lead {
+  width: min(560px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); padding: 0; margin: auto;
+  border: 1px solid var(--line-2); border-radius: 22px; background: var(--solid); color: var(--tx);
+  box-shadow: 0 40px 120px -30px rgba(0, 0, 0, .7); overflow: auto;
+}
+.lead::backdrop { background: color-mix(in srgb, var(--bg) 70%, transparent); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.lead[open] { animation: lead-in .35s cubic-bezier(.2, .8, .2, 1); }
+.lead[open]::backdrop { animation: fade-in .3s ease; }
+@keyframes lead-in { from { opacity: 0; transform: translateY(18px) scale(.98); } }
+@keyframes fade-in { from { opacity: 0; } }
+.lead-card { position: relative; padding: clamp(22px, 4vw, 34px); }
+.lead-x { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 99px; border: 1px solid var(--line-2); background: transparent; color: var(--tx2); cursor: pointer; font-size: 13px; }
+.lead-x:hover { color: var(--tx); border-color: var(--acc-line); }
+.lead h2 { margin-top: 12px; font-size: clamp(26px, 4vw, 34px); padding-right: 40px; }
+.lead-intro { margin-top: 10px; color: var(--tx2); font-size: 15px; }
+.lead form { display: grid; gap: 14px; margin-top: 24px; }
+.lead .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 520px) { .lead .row { grid-template-columns: 1fr; } }
+.field { display: grid; gap: 6px; }
+.field span { font-family: var(--mono); font-size: 12px; color: var(--tx2); }
+.field i { color: var(--hot); font-style: normal; }
+.field input, .field select, .field textarea {
+  width: 100%; font: inherit; font-size: 15px; color: var(--tx); background: var(--panel-2);
+  border: 1px solid var(--line-2); border-radius: 12px; padding: 12px 14px; transition: border-color .2s, box-shadow .2s;
+}
+.field textarea { resize: vertical; min-height: 110px; }
+.field select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--tx3) 50%), linear-gradient(135deg, var(--tx3) 50%, transparent 50%); background-position: calc(100% - 20px) 55%, calc(100% - 15px) 55%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 40px; }
+.field ::placeholder { color: var(--tx3); }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--acc); box-shadow: 0 0 0 3px var(--acc-tint); }
+.field.bad input, .field.bad select, .field.bad textarea { border-color: var(--hot); box-shadow: 0 0 0 3px var(--hot-tint); }
+.lead form[hidden], .lead-done[hidden] { display: none; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.lead-status { min-height: 1.2em; font-size: 14px; color: var(--tx2); }
+.lead-status[data-tone='error'] { color: var(--hot); }
+.lead-status a { color: var(--acc); text-decoration: underline; text-underline-offset: 3px; }
+.lead-submit { width: 100%; }
+.lead-submit:disabled { opacity: .7; cursor: progress; }
+.lead-done { margin-top: 24px; display: grid; gap: 18px; justify-items: start; color: var(--tx2); }
+.lead-check { width: 48px; height: 48px; border-radius: 99px; display: grid; place-items: center; font-size: 22px; color: var(--acc); background: var(--acc-tint); border: 1px solid var(--acc-line); }
+
 /* Social-preview capture mode (?og) — see scripts/capture.mjs */
 .og .nav, .og .progress, .og .hero-stack, .og .scroll-cue, .og .legend, .og astro-dev-toolbar { display: none !important; }
 .og .hero { min-height: 100vh; padding-block: 0 !important; justify-content: center; }

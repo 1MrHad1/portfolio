@@ -1,0 +1,66 @@
+---
+import { leadForm as f } from '../data/portfolio';
+---
+<!--
+  Get-in-touch popup. Netlify detects this form in the built HTML (data-netlify) and stores
+  submissions under Forms → "lead". JS posts it with fetch so the visitor never leaves the page.
+-->
+<dialog class="lead" id="lead" aria-labelledby="lead-title" data-error={f.error} data-email={f.email}>
+  <div class="lead-card">
+    <button class="lead-x" type="button" data-lead-close aria-label="Close">✕</button>
+    <p class="eyebrow">Get in touch</p>
+    <h2 id="lead-title">{f.title}</h2>
+    <p class="lead-intro">{f.intro}</p>
+
+    <form name={f.name} method="POST" data-netlify="true" netlify-honeypot="company-website" novalidate>
+      <input type="hidden" name="form-name" value={f.name} />
+      <p class="hp" aria-hidden="true">
+        <label>Leave this empty <input name="company-website" tabindex="-1" autocomplete="off" /></label>
+      </p>
+
+      <div class="row">
+        <label class="field">
+          <span>First name <i>*</i></span>
+          <input name="first-name" autocomplete="given-name" required maxlength="80" />
+        </label>
+        <label class="field">
+          <span>Last name <i>*</i></span>
+          <input name="last-name" autocomplete="family-name" required maxlength="80" />
+        </label>
+      </div>
+      <div class="row">
+        <label class="field">
+          <span>Email <i>*</i></span>
+          <input name="email" type="email" autocomplete="email" required maxlength="160" />
+        </label>
+        <label class="field">
+          <span>Phone <i>*</i></span>
+          <input name="phone" type="tel" autocomplete="tel" inputmode="tel" required
+            pattern="[+0-9 ()\-]{7,20}" placeholder="+91 98765 43210" />
+        </label>
+      </div>
+      <label class="field">
+        <span>What do you need? <i>*</i></span>
+        <select name="project-type" required>
+          <option value="" disabled selected>Choose one</option>
+          {f.projectTypes.map((t) => <option>{t}</option>)}
+        </select>
+      </label>
+      <label class="field">
+        <span>Your request <i>*</i></span>
+        <textarea name="message" rows="4" required minlength="10" maxlength="3000"
+          placeholder="What are you building, and by when?"></textarea>
+      </label>
+
+      <p class="lead-status" role="status" aria-live="polite"></p>
+      <button class="btn lead-submit" type="submit">Send request</button>
+    </form>
+
+    <div class="lead-done" hidden>
+      <p class="lead-check" aria-hidden="true">✓</p>
+      <p>{f.success}</p>
+      <button class="btn btn-ghost" type="button" data-lead-close>Close</button>
+    </div>
+  </div>
+</dialog>
+

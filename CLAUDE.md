@@ -20,6 +20,8 @@ Astro 5 portfolio with a Three.js particle field behind every section. Static ou
   built once on the CPU and blended in the vertex shader. Never update position buffers per frame.
 - Keep the performance guards: dynamic `import('./field')`, DPR cap 1.75, pause on hidden tab,
   reduced-motion path, `no-webgl` fallback.
+- The lead popup (`src/components/LeadForm.astro`) must stay Netlify-detectable: static
+  `data-netlify="true"`, hidden `form-name`, and fields named as in the QA gate.
 - `@astrojs/react` stays on 4.x while on Astro 5 (see docs/21st-dev-mcp.md).
 
 ## Verifying visual changes

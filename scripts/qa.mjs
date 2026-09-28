@@ -54,6 +54,14 @@ for (const [id, name] of [['rizely', 'Rizely'], ['01wire', '01Wire PR']]) {
   check(block.includes('Shopify full build') && !/Next\.js|Strapi|programmatic/i.test(block), `${name} is presented as a Shopify full build only`);
 }
 
+// Lead popup: Netlify must be able to detect the form in the static HTML
+const form = html.match(/<form[^>]*name="lead"[^>]*>[\s\S]*?<\/form>/)?.[0] ?? '';
+check(/data-netlify="true"/.test(form) && /name="form-name" value="lead"/.test(form), 'lead form is Netlify-detectable (data-netlify + form-name)');
+const missingFields = ['first-name', 'last-name', 'email', 'phone', 'project-type', 'message']
+  .filter((n) => !new RegExp(`name="${n}"[^>]*required|required[^>]*name="${n}"`).test(form));
+check(missingFields.length === 0, `lead form has required name, email, phone and request fields${missingFields.length ? ` (missing: ${missingFields.join(', ')})` : ''}`);
+check((html.match(/\sdata-lead[\s>]/g) ?? []).length >= 2, 'lead popup has at least two triggers');
+
 if (failures.length) {
   console.error(`\n${failures.length} QA check(s) failed.`);
   process.exit(1);

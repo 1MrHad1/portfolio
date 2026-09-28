@@ -75,6 +75,26 @@ All copy lives in [`src/data/portfolio.ts`](src/data/portfolio.ts):
 The screenshot workflow needs **Settings → Actions → General → Allow GitHub Actions to create
 and approve pull requests** turned on.
 
+## Get-in-touch popup
+
+`src/components/LeadForm.astro` is a `<dialog>` lead form with fields for first and last name,
+email, phone, project type and request. Any element with `data-lead` opens it: the nav
+"Let's talk" button, the hero "Get in touch" button and "Send a request" in the contact section.
+Its copy lives in `leadForm` in `src/data/portfolio.ts`.
+
+Submissions go to **Netlify Forms**. There's no backend and no API key. The form is in the static
+HTML with `data-netlify="true"` and a honeypot field, and JS posts it with `fetch` so the visitor
+stays on the page. If sending fails, the popup keeps what they typed and shows your email instead.
+
+After the first deploy:
+1. Netlify → **Forms**: enable form detection if it's off, then redeploy. A form named `lead`
+   should appear.
+2. **Forms → Form notifications → Add notification → Email notification**, and send it to your
+   inbox so every lead reaches you.
+
+The local dev server accepts the POST but doesn't store anything. Only the deployed site
+records submissions.
+
 ## Deploy (Netlify)
 
 `netlify.toml` sets the build command, `dist` as the publish directory, asset caching and

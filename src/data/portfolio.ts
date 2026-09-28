@@ -156,3 +156,22 @@ export const earlyWork = [
   { title: 'Weather App', desc: 'Live conditions and forecasts from the OpenWeather API.', link: 'https://poetic-sorbet-b71dc5.netlify.app', label: 'live demo ↗' },
   { title: 'Workout Buddy', desc: 'Full-stack MERN app for logging and tracking workouts.', link: 'https://github.com/1MrHad1/WorkOut-Buddy-MERN-', label: 'source ↗' },
 ];
+
+/** Get-in-touch popup. Submissions go to Netlify Forms (form name below). */
+export const leadForm = {
+  name: 'lead',
+  title: 'Tell me about your project',
+  intro: 'Share a few details and I’ll reply within one working day.',
+  projectTypes: [
+    'Shopify store',
+    'WordPress / WooCommerce site',
+    'React / Next.js app',
+    'Full-stack web app',
+    'Automation / AI pipeline',
+    'Migration (WordPress → Next.js)',
+    'Something else',
+  ],
+  success: 'Thanks, your request is in. I’ll get back to you within one working day.',
+  error: 'That didn’t send. Please try again, or email me directly at',
+  email: 'umaildanish776@gmail.com',
+};

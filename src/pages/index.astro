@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import ScrollReveal from '../components/ScrollReveal.tsx';
 import CountUp from '../components/CountUp.tsx';
+import LeadForm from '../components/LeadForm.astro';
 import {
   sites,
   slugify,
@@ -34,7 +35,7 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
     </nav>
     <div class="nav-end">
       <button id="themeToggle" class="tgl" aria-label="Toggle light and dark theme" title="Toggle theme">◐</button>
-      <a class="btn btn-sm" href="#contact" data-magnetic>Let's talk</a>
+      <a class="btn btn-sm" href="#contact" data-lead data-magnetic>Let's talk</a>
     </div>
   </header>
 
@@ -46,7 +47,7 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
       <p class="hero-sub" data-r>{profile.heroSub}</p>
       <div class="actions" data-r>
         <a class="btn" href="#work" data-magnetic>See the work</a>
-        <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        <a class="btn btn-ghost" href="#contact" data-lead>Get in touch</a>
       </div>
       <ul class="hero-stack" data-r aria-label="Core stack">
         {profile.heroStack.map((s) => <li>{s}</li>)}
@@ -224,7 +225,8 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
       <h2 data-r>Let's build something<br />that <em>converts</em>.</h2>
       <p class="lead" data-r>Full-stack builds, Shopify storefronts, WordPress → Next.js migrations and automation pipelines. The fastest way to reach me:</p>
       <div class="contacts" data-r>
-        <a class="btn" href="mailto:umaildanish776@gmail.com" data-magnetic>umaildanish776@gmail.com</a>
+        <a class="btn" href="#contact" data-lead data-magnetic>Send a request</a>
+        <a class="btn btn-ghost" href="mailto:umaildanish776@gmail.com">umaildanish776@gmail.com</a>
         <a class="btn btn-ghost" href="tel:+919113021043">+91 91130 21043</a>
         <a class="btn btn-ghost" href="https://github.com/1MrHad1" rel="noopener" target="_blank">github.com/1MrHad1 ↗</a>
       </div>
@@ -235,6 +237,8 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
     <p>B.E. Computer Science · Maharaja Institute of Technology, Mysore</p>
     <p>Built with Astro, Three.js and GSAP · deployed on Netlify</p>
   </footer>
+
+  <LeadForm />
 
   <script>
     import '../scripts/app';
