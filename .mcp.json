@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "threejsresources": {
+      "type": "http",
+      "url": "https://threejsresources.com/api/mcp"
+    }
+  }
+}

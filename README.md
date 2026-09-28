@@ -1,67 +1,88 @@
-# Haseeb Ahmed Danish — Developer Portfolio
+# Haseeb Ahmed Danish — Portfolio
 
-Personal portfolio site. **Senior Developer** — Shopify, WordPress & React, with a focus on conversion-optimized e-commerce and AI automation.
+Portfolio of a **senior full-stack developer**: Next.js apps, Shopify storefronts, Strapi and
+Supabase back-ends, WordPress → Next.js migrations, and AI automation pipelines.
 
-Built with [Astro](https://astro.build) and vanilla CSS, with a small React island layer for
-scroll-driven motion. Dark-first "Refined Minimal" design with a light-mode toggle and a teal accent.
+Built with [Astro](https://astro.build) and a single **Three.js** particle field that sits behind
+every section and morphs as you scroll.
+
+## The 3D field
+
+`src/scripts/field.ts` renders one `THREE.Points` cloud (15,000 particles on desktop, 7,000 on
+mobile) plus a 98-node network. Every formation is uploaded to the GPU once; the vertex shader
+blends between them, so scrolling never re-uploads a buffer.
+
+| Section | Formation | Why |
+| --- | --- | --- |
+| Hero, About | Network sphere with 98 linked nodes and light packets on every link | the 98-site publishing network |
+| Work, Capabilities | Four stacked platters | the full stack |
+| Automation | Particles streaming through a twisting tube | data moving through a pipeline |
+| Client work | 21 tile outlines | the 21 client sites |
+| Contact | Portal ring framing the call to action | |
+
+Sections opt in with `data-formation="n"` and `data-intensity="0–1"`. Other touches: particles
+move away from the cursor, scatter slightly when you scroll fast, and switch colours and
+blending for the light theme.
+
+Performance guards:
+- `three` is loaded with a dynamic import after first paint, so it never blocks the LCP text
+- 3 draw calls in total
+- pixel ratio capped at 1.75
+- rendering stops in background tabs
+- `prefers-reduced-motion` slows the field and skips the tweens
+- a CSS gradient fallback shows when WebGL isn't available
 
 ## Stack
 
-- **Astro 5** — static output, React islands
-- **Vanilla CSS** — token-based theming (light + dark) in `src/styles/global.css`
-- **React 19 + Tailwind 4 + motion** — only for the three animated islands, hydrated with `client:visible`
-- **@astrojs/sitemap** — auto-generated `sitemap-index.xml`
-- JSON-LD `Person` schema, OpenGraph/Twitter meta, canonical URLs
+- **Astro 5**: static output, React islands (`ScrollReveal`, `VelocityMarquee`, `CountUp`)
+- **Three.js**: custom `ShaderMaterial`s, no post-processing
+- **GSAP ScrollTrigger + Lenis**: smooth scroll, reveals, section → formation triggers
+- **Tailwind 4** (utilities only) for 21st.dev components; see [docs/21st-dev-mcp.md](docs/21st-dev-mcp.md)
+- Hand-written CSS with light and dark tokens in `src/styles/global.css`
 
-Components follow the shadcn/21st.dev convention (`cn` from `@/lib/utils`, Tailwind classes),
-so components pulled from [21st.dev](https://21st.dev) drop in unmodified — see
-[docs/21st-dev-mcp.md](docs/21st-dev-mcp.md) for the MCP setup and the constraints that matter here.
-
-## Local development
+## Commands
 
 ```bash
 npm install
-npm run dev      # http://localhost:4321
+npm run dev             # http://localhost:4321
+npm run build           # static site in dist/
+npm run qa              # QA gate against dist/ (run after build)
+npm run check           # build + qa
+npm run capture:work    # re-shoot case-study images from the live sites
+npm run capture:thumbs  # re-shoot the 21 client-grid thumbnails
+npm run capture:og      # re-shoot public/og.png from a running server (default http://localhost:4321/?og)
 ```
-
-## Build
-
-```bash
-npm run build    # outputs to ./dist
-npm run preview  # preview the production build locally
-```
-
-## Deploy to Netlify
-
-This repo includes `netlify.toml` (build command `npm run build`, publish dir `dist`, asset caching + security headers).
-
-1. On Netlify: **Add new site → Import from GitHub**, pick this repo.
-2. Build settings are auto-detected from `netlify.toml`. Deploy.
-3. After you have your Netlify domain, update `SITE` in `astro.config.mjs` so canonical URLs and the sitemap use the real host, then redeploy.
 
 ## Editing content
 
-Everything is data-driven in `src/pages/index.astro`:
+All copy lives in [`src/data/portfolio.ts`](src/data/portfolio.ts):
 
-- `sites` — the client-work grid (`sh` = Shopify, `wp` = WordPress, `rc` = React, `cr` = Crypto/Media)
-- `stack` — the scrolling tech strip under the intro
-- `jobs` — experience timeline
-- `automations` — the Automation & AI Engineering showcase cards
-- `projects` — personal projects
+- `caseStudies`: the bento grid (`size: 'xl' | 'lg' | 'md'`)
+- `capabilities`: the stacked capability layers
+- `automations`: pipeline cards (`hot` = highlighted steps)
+- `jobs`, `earlyWork`, `stack`
+- `sites`: the client grid. Platform codes: `sh` Shopify, `nx` Next.js, `wp` WordPress, `cr` Crypto / Media. Filter counts are computed.
 
-Design tokens (colors, both themes) live in `src/styles/global.css`. Head/meta/schema live in `src/layouts/Layout.astro`.
+## Automations
 
-## Animated islands
-
-| Component | Used for |
+| Where | What |
 | --- | --- |
-| `ScrollReveal.tsx` | Word-by-word reveal on the intro paragraph |
-| `VelocityMarquee.tsx` | Tech strip that speeds up and skews with scroll velocity |
-| `CountUp.tsx` | The four metric tiles, counting up when scrolled into view |
+| `.github/workflows/ci.yml` | On every push and PR: `npm ci`, build, then the QA gate |
+| same workflow, `lighthouse` job | Lighthouse CI on the built site. Accessibility and SEO ≥ 0.95 fail the build; performance and best practices warn |
+| `.github/workflows/refresh-screenshots.yml` | Monthly (and on demand): re-captures every screenshot with Playwright and opens a PR if anything changed |
+| `.github/dependabot.yml` | Weekly npm updates (Astro and Three grouped, `@astrojs/react` majors held back), monthly Actions updates |
+| `scripts/qa.mjs` | Checks title and description length, a single `<h1>`, canonical URL, JSON-LD parsing, every `#anchor` target, every image file and its alt text, `og.png`, and content regressions (FameNinja must be tagged Next.js) |
 
-All three respect `prefers-reduced-motion` and render their final state when motion is off.
+The screenshot workflow needs **Settings → Actions → General → Allow GitHub Actions to create
+and approve pull requests** turned on.
 
-## To do
+## Deploy (Netlify)
 
-- Add a real `public/og.png` social preview image (1200×630).
-- Update `SITE` in `astro.config.mjs` to the live domain.
+`netlify.toml` sets the build command, `dist` as the publish directory, asset caching and
+security headers. After the first deploy, set `SITE` in `astro.config.mjs` to the live domain so
+canonical URLs and the sitemap use it.
+
+## AI tooling used on this repo
+
+See [docs/threejs-tooling.md](docs/threejs-tooling.md): the Three.js Resources MCP (shared in
+`.mcp.json`), the Three.js Claude skills, Inspo for design references, and 21st.dev for components.

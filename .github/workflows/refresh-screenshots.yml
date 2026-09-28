@@ -1,0 +1,36 @@
+name: Refresh screenshots
+
+# Re-captures the case-study shots and client-grid thumbnails from the live sites
+# and opens a PR when anything changed. Needs "Allow GitHub Actions to create and
+# approve pull requests" enabled under Settings → Actions → General.
+on:
+  schedule:
+    - cron: '0 3 1 * *' # 03:00 UTC on the 1st of every month
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run capture:work
+      - run: npm run capture:thumbs
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/refresh-screenshots
+          commit-message: 'chore: refresh site screenshots'
+          title: 'chore: refresh site screenshots'
+          body: Automated monthly re-capture of `public/work` and `public/thumbs` from the live sites. Check each image before merging.
+          add-paths: |
+            public/work/*.jpg
+            public/thumbs/*.jpg

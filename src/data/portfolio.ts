@@ -1,0 +1,197 @@
+// All page content lives here. index.astro only renders it.
+
+export type Platform = 'sh' | 'nx' | 'wp' | 'cr';
+
+export const PLATFORM_LABEL: Record<Platform, string> = {
+  sh: 'Shopify',
+  nx: 'Next.js',
+  wp: 'WordPress',
+  cr: 'Crypto / Media',
+};
+
+/** Client-work grid. Thumbnails live at public/thumbs/<slug>.jpg (600×375). */
+export const sites: [domain: string, platform: Platform][] = [
+  ['fameninja.com', 'nx'],
+  ['pr.01wire.com', 'sh'], ['shop.rizely.net', 'sh'],
+  ['kesariananta.com', 'sh'], ['banterkitchen.com', 'sh'], ['mimamsaa.com', 'sh'], ['stravage.in', 'sh'],
+  ['the-culture.in', 'sh'], ['anythingvegan.ae', 'sh'],
+  ['swingsaga.com', 'sh'], ['craftdelights.in', 'sh'], ['koora.com.au', 'sh'],
+  ['artsncraftsindia.com', 'wp'], ['gogrowth.in', 'wp'],
+  ['alhawaeanetwork.com', 'wp'], ['acquifin.us', 'wp'],
+  ['thecryptoupdates.com', 'cr'], ['theblockopedia.com', 'cr'], ['theblockopedia.com/wiki', 'cr'],
+  ['tbpmedia.io', 'cr'], ['defidraft.com', 'cr'],
+];
+
+export const slugify = (d: string) => d.replace(/[^a-z0-9]/g, '-');
+
+export const stack = [
+  'Next.js', 'TypeScript', 'React 19', 'Three.js', 'Node.js', 'Strapi 5', 'Supabase', 'PostgreSQL',
+  'Shopify Liquid', 'Admin GraphQL', 'Headless commerce', 'Astro', 'Cloudflare Workers',
+  'n8n', 'Claude + MCP', 'GitHub Actions', 'Technical SEO',
+];
+
+export interface CaseStudy {
+  id: string;
+  name: string;
+  kicker: string;
+  summary: string;
+  points: string[];
+  stack: string[];
+  links: { label: string; href: string }[];
+  thumb?: string;
+  status?: string;
+  size: 'xl' | 'lg' | 'md';
+}
+
+export const caseStudies: CaseStudy[] = [
+  {
+    id: 'fameninja',
+    name: 'FameNinja',
+    kicker: 'WordPress → Next.js re-platform',
+    summary:
+      'Moved a reputation-management agency off WordPress/Elementor onto a Next.js app on Vercel, backed by a headless Strapi 5 CMS, without losing a single ranking URL.',
+    points: [
+      'Next.js + TypeScript front end on Vercel; every legacy root-slug URL preserved 1:1',
+      'Strapi 5 on Railway (PostgreSQL, Cloudinary media) for the blog, draft previews and lead capture',
+      'Programmatic page clusters (press-release outlets, city ORM, article removal) from one parameterised template + per-page config',
+      'Scripted SEO gates on every page: title length, canonicals, FAQPage / BreadcrumbList JSON-LD, dead links',
+    ],
+    stack: ['Next.js', 'TypeScript', 'Tailwind', 'Radix UI', 'Strapi 5', 'PostgreSQL', 'Railway', 'Vercel'],
+    links: [{ label: 'fameninja.com', href: 'https://fameninja.com' }],
+    thumb: '/work/fameninja.jpg',
+    size: 'xl',
+  },
+  {
+    id: 'rizely',
+    name: 'Rizely',
+    kicker: 'NFC smart business cards · commerce + content',
+    summary:
+      'An NFC business-card brand: a Shopify store for the product line and a statically exported Next.js marketing site whose blog runs on a Strapi 5 CMS I built.',
+    points: [
+      'Shopify catalogue of NFC (PVC, metal, wood) and print cards, with volume-tier variants and a structured SKU scheme',
+      'Strapi 5 blog CMS read at build time by the Next.js static export, with FAQ fields emitted as FAQPage schema',
+      'Architecture fitted to a static host: CMS preview disabled on purpose, waitlist captured through Netlify Forms',
+    ],
+    stack: ['Shopify', 'Liquid', 'Next.js', 'Strapi 5', 'Cloudinary', 'Netlify'],
+    links: [
+      { label: 'shop.rizely.net', href: 'https://shop.rizely.net' },
+      { label: 'rizely.net', href: 'https://rizely.net' },
+    ],
+    thumb: '/work/rizely.jpg',
+    size: 'lg',
+  },
+  {
+    id: '01wire',
+    name: '01Wire PR',
+    kicker: 'Press-release marketplace on Shopify',
+    summary:
+      'Turned press-release placements into a Shopify store: each news outlet is a digital product, priced by tier, with a consistent delivery promise.',
+    points: [
+      'Outlet-as-product model with tiered variants by backlink count and SKUs keyed to the outlet domain',
+      'National and regional-language outlets (Hindi, Marathi, Tamil, Telugu, Gujarati) with link type and turnaround on every listing',
+      'Catalogue created and maintained programmatically through the Shopify Admin API',
+    ],
+    stack: ['Shopify', 'Admin GraphQL API', 'Liquid', 'Claude + MCP'],
+    links: [{ label: 'pr.01wire.com', href: 'https://pr.01wire.com' }],
+    thumb: '/work/01wire.jpg',
+    size: 'lg',
+  },
+  {
+    id: 'blockopedia',
+    name: 'Blockopedia Wiki',
+    kicker: '267-entry WordPress → Next.js migration',
+    summary:
+      'Migrating a crypto wiki onto a Next.js directory stack, gated by scripted content-integrity, parity and SEO checks.',
+    points: [
+      'Integrity audit found 94 entries whose body described a different asset than their title; quarantined with noindex instead of deleted',
+      'Parity script asserts all 267 URLs return 200 with no redirect and no thinned bodies',
+    ],
+    stack: ['Next.js', 'Prisma', 'PostgreSQL', 'Playwright'],
+    links: [{ label: 'theblockopedia.com/wiki', href: 'https://theblockopedia.com/wiki' }],
+    status: 'In progress',
+    size: 'md',
+  },
+  {
+    id: 'thread-grain',
+    name: 'Thread & Grain',
+    kicker: 'WebGL storefront walkthrough',
+    summary:
+      'A brand storefront prototype with a 3D store you walk through on scroll: product bays turn to face you and a wardrobe opens at the end.',
+    points: [
+      'Rebuilt from CSS 3D to React Three Fiber after five bugs traced to one cause: no depth buffer, camera or raycasting',
+    ],
+    stack: ['Next.js', 'React Three Fiber', 'Three.js'],
+    links: [],
+    status: 'Prototype',
+    size: 'md',
+  },
+  {
+    id: 'command-center',
+    name: 'Agency Command Center',
+    kicker: 'Next.js + Supabase team app',
+    summary:
+      'A private mission tracker for an agency team: daily missions from 60-day roadmaps, progress and ranks per person, and an owner overview.',
+    points: ['Supabase auth + Postgres with a seed script that provisions accounts and loads every roadmap'],
+    stack: ['Next.js', 'Supabase', 'PostgreSQL'],
+    links: [],
+    status: 'Internal tool',
+    size: 'md',
+  },
+];
+
+export const capabilities = [
+  { title: 'Front end', items: ['TypeScript', 'React 19', 'Next.js', 'Astro', 'Three.js / R3F', 'GSAP', 'Tailwind', 'Radix / shadcn'] },
+  { title: 'Back end & data', items: ['Node.js', 'Strapi 5', 'Supabase', 'PostgreSQL', 'Prisma', 'MySQL', 'REST + GraphQL', 'PHP'] },
+  { title: 'Commerce', items: ['Shopify Liquid', 'Custom themes', 'Admin + Storefront API', 'Headless storefronts', 'WooCommerce', 'Checkout CRO'] },
+  { title: 'Infra & delivery', items: ['Vercel', 'Netlify', 'Railway', 'Cloudflare Workers', 'GitHub Actions', 'LiteSpeed tuning'] },
+  { title: 'AI & automation', items: ['Claude Code + MCP', 'n8n pipelines', 'LLM quality gates', 'Telegram approvals', 'Programmatic SEO', 'Schema markup'] },
+];
+
+export const jobs = [
+  { yr: 'Current', role: 'Developer', org: 'Rankkking', desc: 'Connected Claude Code to WordPress sites via MCP to automate SEO best practices — audits, broken-link detection, sitemap updates. Built AI-assisted multi-site publishing with human approval gates, plus high-converting funnels in custom code and FlexiFunnels.' },
+  { yr: '2024 — 2026', role: 'Developer', org: 'GoGrowth Labs', desc: 'Built and maintained WooCommerce and Shopify solutions. Revamped breezyla.com, saving the client $1,000/month by implementing premium features natively. Applied CRO-driven UI/UX and technical SEO to lift conversions and rankings.' },
+  { yr: '2023 — 2024', role: 'WordPress Developer', org: 'ArtsnCraftsIndia', desc: 'Optimized checkout flows and product pages, significantly reducing cart abandonment and increasing conversion through streamlined experiences.' },
+  { yr: '2023', role: 'WordPress Developer', org: 'Peoplewoo', desc: 'Implemented UI/UX designs and developed custom page templates for distinct sections across various WordPress sites.' },
+  { yr: '2022 — 2023', role: 'Front-End / WordPress Developer', org: 'Design Script', desc: 'Designed and built landing pages, e-commerce sites, and blogs for multiple clients.' },
+];
+
+export const automations = [
+  {
+    title: 'MainWP multi-site content network',
+    tag: 'n8n · Cloudflare Workers · MainWP REST · LLM · Telegram',
+    desc: 'One order fans out to a <span class="k">98-site WordPress network</span>. An AI quality gate screens each article, a Cloudflare Worker reverse-proxy relay gets past the origin bot wall, drafts land on every selected site, and a single Telegram approval publishes them all, with per-site failure handling.',
+    flow: ['order form', 'Google Doc', 'AI QA gate', 'draft ×98', 'Telegram approve', 'publish all'],
+    hot: [2, 4],
+    result: 'one order → one approval → live across the network in minutes, not hours.',
+  },
+  {
+    title: 'TheCryptoUpdates + TheBlockopedia order engine',
+    tag: 'n8n · WordPress REST · Rank Math · LLM · Tally',
+    desc: 'Client orders become <span class="k">scheduled, SEO-ready posts</span> on two high-traffic crypto publications: parse and route the target, ingest the doc, AI QA, process the featured image, write Rank Math meta with IST scheduling, then a Telegram approval to publish. Duplicate titles are caught automatically.',
+    flow: ['Tally order', 'resolve site', 'AI QA gate', 'image + SEO', 'approve', 'schedule / publish'],
+    hot: [2, 4],
+    result: 'hands-off publishing with a human gate and consistent SEO metadata.',
+  },
+  {
+    title: 'AI-driven SEO & security via MCP',
+    tag: 'Claude (MCP) · WordPress · GSC · GA4',
+    desc: 'Connected Claude to <span class="k">40+ live WordPress sites</span> through Model Context Protocol servers to run technical SEO audits, security hardening, broken-link detection and sitemap/metadata updates, with GSC + GA4 wired in as an SEO command center.',
+    flow: ['Claude + MCP', '40+ WP sites', 'audit + fix', 'GSC / GA4 report'],
+    hot: [2],
+    result: 'network-wide audits and fixes executed programmatically.',
+  },
+  {
+    title: 'Migration QA gates',
+    tag: 'Node · Playwright · JSON-LD · Sitemaps',
+    desc: 'Every <span class="k">WordPress → Next.js migration</span> ships behind scripted gates: status codes with no surprise redirects, title and canonical parity, schema present (or deliberately suppressed), sitemap inclusion and body-content parity, plus desktop and mobile layout checks.',
+    flow: ['export WP', 'build Next.js', 'SEO QA', 'parity check', 'Playwright', 'ship'],
+    hot: [2, 3],
+    result: 'migrations that keep their rankings, verified by scripts instead of spot checks.',
+  },
+];
+
+export const earlyWork = [
+  { title: 'Task Tracker App', desc: 'A focused task manager with persistent state and a fast UI.', link: 'https://profound-cheesecake-894687.netlify.app', label: 'live demo ↗' },
+  { title: 'Weather App', desc: 'Live conditions and forecasts from the OpenWeather API.', link: 'https://poetic-sorbet-b71dc5.netlify.app', label: 'live demo ↗' },
+  { title: 'Workout Buddy', desc: 'Full-stack MERN app for logging and tracking workouts.', link: 'https://github.com/1MrHad1/WorkOut-Buddy-MERN-', label: 'source ↗' },
+];

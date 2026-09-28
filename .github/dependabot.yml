@@ -1,0 +1,19 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      astro:
+        patterns: ['astro', '@astrojs/*']
+      three:
+        patterns: ['three', '@types/three']
+    ignore:
+      # @astrojs/react 5+ needs Vite 7+, which breaks the Astro 5 dev server (see docs/21st-dev-mcp.md)
+      - dependency-name: '@astrojs/react'
+        update-types: ['version-update:semver-major']
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

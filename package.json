@@ -3,13 +3,18 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "Developer portfolio for Haseeb Ahmed Danish — Shopify, WordPress & React.",
+  "description": "Portfolio of Haseeb Ahmed Danish, senior full-stack developer. Astro + Three.js.",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "qa": "node scripts/qa.mjs",
+    "capture:work": "node scripts/capture.mjs work",
+    "capture:thumbs": "node scripts/capture.mjs thumbs",
+    "capture:og": "node scripts/capture.mjs og",
+    "check": "npm run build && npm run qa"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
@@ -20,10 +25,17 @@
     "astro": "^5.7.0",
     "clsx": "^2.1.1",
     "framer-motion": "^13.4.2",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.26",
     "motion": "^13.4.2",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "tailwind-merge": "^3.7.0",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@types/three": "^0.186.0",
+    "playwright": "^1.63.0"
   }
 }

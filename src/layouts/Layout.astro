@@ -7,8 +7,8 @@ export interface Props {
   description?: string;
 }
 const {
-  title = 'Haseeb Ahmed Danish — Senior Developer',
-  description = 'Senior developer with 5+ years building conversion-optimized Shopify, WordPress and React platforms, plus AI automation pipelines for content and technical SEO at network scale.',
+  title = 'Haseeb Ahmed Danish — Senior Full-Stack Developer',
+  description = 'Senior full-stack developer building Next.js apps, Shopify storefronts, Strapi and Supabase back-ends, and AI automation pipelines.',
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
@@ -18,12 +18,12 @@ const personLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Haseeb Ahmed Danish',
-  jobTitle: 'Senior Developer',
+  jobTitle: 'Senior Full-Stack Developer',
   email: 'mailto:umaildanish776@gmail.com',
   telephone: '+91-9113021043',
   url: canonical,
   sameAs: ['https://github.com/1MrHad1'],
-  knowsAbout: ['Shopify', 'Liquid', 'WordPress', 'WooCommerce', 'React', 'Technical SEO', 'Conversion Rate Optimization', 'Automation'],
+  knowsAbout: ['Next.js', 'TypeScript', 'React', 'Three.js', 'Node.js', 'Strapi', 'Supabase', 'PostgreSQL', 'Shopify', 'Liquid', 'WordPress', 'WooCommerce', 'Technical SEO', 'Conversion Rate Optimization', 'AI automation', 'Model Context Protocol'],
   alumniOf: {
     '@type': 'CollegeOrUniversity',
     name: 'Maharaja Institute of Technology, Mysore',
@@ -35,17 +35,23 @@ const personLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2307080a'/><circle cx='50' cy='50' r='22' fill='none' stroke='%232dd4bf' stroke-width='8'/><circle cx='72' cy='30' r='8' fill='%23f5a524'/></svg>" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#07080a" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -55,6 +61,8 @@ const personLd = {
         try {
           var t = localStorage.getItem('theme');
           if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+          // ?og renders a clean hero for scripts/capture.mjs og (the social preview image)
+          if (new URLSearchParams(location.search).has('og')) document.documentElement.classList.add('og');
         } catch (e) {}
       })();
     </script>

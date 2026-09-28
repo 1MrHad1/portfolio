@@ -3,264 +3,247 @@ import Layout from '../layouts/Layout.astro';
 import ScrollReveal from '../components/ScrollReveal.tsx';
 import VelocityMarquee from '../components/VelocityMarquee.tsx';
 import CountUp from '../components/CountUp.tsx';
+import {
+  sites,
+  slugify,
+  PLATFORM_LABEL,
+  type Platform,
+  stack,
+  caseStudies,
+  capabilities,
+  jobs,
+  automations,
+  earlyWork,
+} from '../data/portfolio';
 
-const sites: [string, 'sh' | 'wp' | 'cr' | 'rc'][] = [
-  ['fameninja.com', 'rc'],
-  ['pr.01wire.com', 'sh'], ['shop.rizely.net', 'sh'],
-  ['kesariananta.com', 'sh'], ['banterkitchen.com', 'sh'], ['mimamsaa.com', 'sh'], ['stravage.in', 'sh'],
-  ['the-culture.in', 'sh'], ['anythingvegan.ae', 'sh'],
-  ['swingsaga.com', 'sh'], ['craftdelights.in', 'sh'], ['koora.com.au', 'sh'],
-  ['artsncraftsindia.com', 'wp'], ['gogrowth.in', 'wp'],
-  ['alhawaeanetwork.com', 'wp'], ['acquifin.us', 'wp'],
-  ['thecryptoupdates.com', 'cr'], ['theblockopedia.com', 'cr'], ['theblockopedia.com/wiki', 'cr'],
-  ['tbpmedia.io', 'cr'], ['defidraft.com', 'cr'],
-];
-const LABEL = { sh: 'Shopify', wp: 'WordPress', cr: 'Crypto / Media', rc: 'React' };
-// Sites without a screenshot yet fall back to a lettered tile.
-// Drop a 600x375 jpg in public/thumbs/<slug>.jpg to replace one.
-const NO_THUMB = new Set<string>([]);
-
-const stack = [
-  'Shopify Liquid', 'Headless storefronts', 'React 19', 'Astro islands', 'Next.js',
-  'WordPress + WooCommerce', 'Claude MCP', 'n8n pipelines', 'Cloudflare Workers',
-  'Technical SEO', 'CRO', 'Schema markup',
-];
-const slugify = (d: string) => d.replace(/[^a-z0-9]/g, '-');
-
-const jobs = [
-  { yr: 'Current', role: 'Developer', org: 'Rankkking', desc: 'Connected Claude Code to WordPress sites via MCP to automate SEO best practices — audits, broken-link detection, sitemap updates. Built AI-assisted multi-site publishing with human approval gates, plus high-converting funnels in custom code and FlexiFunnels.' },
-  { yr: '2024 — 2026', role: 'Developer', org: 'GoGrowth Labs', desc: 'Built and maintained WooCommerce and Shopify solutions. Revamped breezyla.com, saving the client $1,000/month by implementing premium features natively. Applied CRO-driven UI/UX and technical SEO to lift conversions and rankings.' },
-  { yr: '2023 — 2024', role: 'WordPress Developer', org: 'ArtsnCraftsIndia', desc: 'Optimized checkout flows and product pages, significantly reducing cart abandonment and increasing conversion through streamlined experiences.' },
-  { yr: '2023', role: 'WordPress Developer', org: 'Peoplewoo', desc: 'Implemented UI/UX designs and developed custom page templates for distinct sections across various WordPress sites.' },
-  { yr: '2022 — 2023', role: 'Front-End / WordPress Developer', org: 'Design Script', desc: 'Designed and built landing pages, e-commerce sites, and blogs for multiple clients.' },
-];
-
-const automations = [
-  {
-    title: 'MainWP multi-site content network',
-    tag: 'n8n · Cloudflare Workers · MainWP REST · LLM · Telegram',
-    desc: 'One order fans out to a <span class="k">98-site WordPress network</span>. An AI quality-gate screens each article, a Cloudflare Worker reverse-proxy relay defeats the origin bot-wall, drafts land on every selected site, and a single Telegram approval publishes them all — with graceful per-site failure handling.',
-    flow: ['order form', 'Google Doc', 'AI QA gate', 'draft ×98', 'Telegram approve', 'publish all'],
-    hot: [2, 4],
-    result: 'one order → one approval → live across the network in minutes, not hours.',
-  },
-  {
-    title: 'TheCryptoUpdates + TheBlockopedia order engine',
-    tag: 'n8n · WordPress REST · Rank Math · LLM · Tally',
-    desc: 'Client orders become <span class="k">scheduled, SEO-ready posts</span> on two high-traffic crypto publications — parse and route the target, ingest the doc, AI QA, auto-process the featured image, write Rank Math meta with IST scheduling, then a Telegram approval to publish. Includes automatic duplicate-title de-duplication.',
-    flow: ['Tally order', 'resolve site', 'AI QA gate', 'image + SEO', 'approve', 'schedule / publish'],
-    hot: [2, 4],
-    result: 'hands-off publishing with a human gate and consistent SEO metadata.',
-  },
-  {
-    title: 'AI-driven SEO & security via MCP',
-    tag: 'Claude (MCP) · WordPress · GSC · GA4',
-    desc: 'Connected Claude to <span class="k">40+ live WordPress sites</span> via Model Context Protocol servers to run technical SEO audits, security hardening, broken-link detection, and sitemap/metadata updates — with GSC + GA4 wired in for an automated SEO command-center.',
-    flow: ['Claude + MCP', '40+ WP sites', 'audit + fix', 'GSC / GA4 report'],
-    hot: [2],
-    result: 'network-wide audits and fixes executed programmatically.',
-  },
-];
-
-const projects = [
-  { title: 'Task Tracker App', desc: 'A focused task manager with persistent state and a clean, fast UI.', link: 'https://profound-cheesecake-894687.netlify.app', label: 'live demo ↗' },
-  { title: 'Weather App', desc: 'Live conditions and forecasts powered by the OpenWeather API.', link: 'https://poetic-sorbet-b71dc5.netlify.app', label: 'live demo ↗' },
-  { title: 'Workout Buddy', desc: 'Full-stack MERN app for logging and tracking workouts.', link: 'https://github.com/1MrHad1/WorkOut-Buddy-MERN-', label: 'source ↗' },
-];
+const platforms = Object.keys(PLATFORM_LABEL) as Platform[];
+const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
 ---
 <Layout>
-  <div class="shell">
-    <aside>
-      <p class="eyebrow">Portfolio · 2026</p>
-      <h1 class="name">Haseeb Ahmed Danish</h1>
-      <p class="role">Senior Developer</p>
-      <p class="sub"><b>Shopify</b> · <b>WordPress</b> · <b>React</b><br />conversion-first e-commerce &amp; funnels</p>
-      <nav class="side" aria-label="Sections">
-        <a href="#about">about</a>
-        <a href="#skills">skills</a>
-        <a href="#experience">experience</a>
-        <a href="#work">client work</a>
-        <a href="#automation">automation</a>
-        <a href="#projects">projects</a>
-        <a href="#contact">contact</a>
-      </nav>
-      <div class="side-foot">
-        <div class="socials">
-          <a href="https://github.com/1MrHad1">github</a>
-          <a href="mailto:umaildanish776@gmail.com">email</a>
-        </div>
-        <button id="themeToggle" class="tgl" aria-label="Toggle light and dark theme" title="Toggle theme">◐</button>
-      </div>
-    </aside>
+  <div class="progress" aria-hidden="true"><i></i></div>
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="fallback-glow" aria-hidden="true"></div>
 
-    <main>
-      <section id="about">
+  <header class="nav">
+    <a class="logo" href="#top" aria-label="Haseeb Ahmed Danish, back to top">haseeb<span>.</span></a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#work">work</a>
+      <a href="#stack">stack</a>
+      <a href="#automation">automation</a>
+      <a href="#experience">experience</a>
+      <a href="#clients">clients</a>
+    </nav>
+    <div class="nav-end">
+      <button id="themeToggle" class="tgl" aria-label="Toggle light and dark theme" title="Toggle theme">◐</button>
+      <a class="btn btn-sm" href="#contact" data-magnetic>Let's talk</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ================= HERO ================= -->
+    <section class="hero wrap" data-formation="0" data-intensity="1">
+      <p class="eyebrow" data-r><span class="dot"></span>Senior Full-Stack Developer · 5+ years</p>
+      <h1 data-r>Full-stack systems<br />that <em>ship</em> and <em>sell</em>.</h1>
+      <p class="hero-sub" data-r>
+        I'm Haseeb Ahmed Danish. I build Next.js apps, Shopify storefronts and headless back-ends,
+        plus the AI automation that runs a 98‑site publishing network.
+      </p>
+      <div class="actions" data-r>
+        <a class="btn" href="#work" data-magnetic>See the work</a>
+        <a class="btn btn-ghost" href="#contact">Get in touch</a>
+      </div>
+      <ul class="hero-stack" data-r aria-label="Core stack">
+        {['Next.js', 'TypeScript', 'Shopify', 'Strapi', 'Supabase', 'Three.js', 'n8n', 'Claude MCP'].map((s) => <li>{s}</li>)}
+      </ul>
+      <p class="legend" aria-hidden="true"><b>98</b> nodes · one for every site in the network I automate</p>
+      <a class="scroll-cue" href="#about" aria-label="Scroll to about"><span></span>scroll</a>
+    </section>
+
+    <!-- ================= ABOUT ================= -->
+    <section id="about" class="wrap about" data-formation="0" data-intensity="0.6">
+      <div data-r>
         <ScrollReveal
           client:visible
           className="lead-reveal"
-          text="Results-driven developer with 5+ years building high-performing e-commerce and service platforms. I specialize in *Shopify* — custom themes, Liquid, and headless/*React* storefronts — alongside WordPress and WooCommerce and conversion-optimized landing pages built to capture leads and drive revenue."
+          text="I've spent 5+ years shipping the whole stack: *Next.js* and *React* front ends, *Shopify* storefronts and custom themes, *Strapi* and *Supabase* back-ends on Postgres, and the migrations that move sites between them without losing a ranking."
         />
-        <p class="lead">Lately I pair clean, maintainable code with <strong>AI automation</strong> — connecting coding agents to live sites to run technical SEO, publishing, and QA at network scale.</p>
-        <div class="metrics">
-          <CountUp client:visible to={5} suffix="+" label="years building for the web" />
-          <CountUp client:visible to={21} label="client sites shipped" />
-          <CountUp client:visible to={98} label="site publishing network" />
-          <CountUp client:visible to={40} suffix="+" label="WordPress sites automated" />
-        </div>
-      </section>
-
-      <div class="techstrip">
-        <VelocityMarquee client:visible items={stack} />
+        <p class="lead">Lately I pair that with <strong>AI automation</strong>: coding agents connected to live sites over MCP, and n8n pipelines with human approval gates for publishing, technical SEO and QA at network scale.</p>
       </div>
+      <div class="metrics" data-r="1">
+        <CountUp client:visible to={5} suffix="+" label="years shipping for the web" />
+        <CountUp client:visible to={sites.length} label="client sites shipped" />
+        <CountUp client:visible to={98} label="site publishing network" />
+        <CountUp client:visible to={40} suffix="+" label="WordPress sites automated" />
+      </div>
+    </section>
 
-      <section id="skills">
-        <p class="sh"><span class="n">01</span> Skills &amp; competencies</p>
-        <div class="skills">
-          <div class="skcard">
-            <h3><i class="ic">◆</i>Core technologies</h3>
-            <div class="chips">
-              {['Shopify (Liquid)','WordPress','WooCommerce','React 19','Next.js','Astro','TypeScript','PHP','Tailwind','MySQL'].map((c) => <span class="chip">{c}</span>)}
-            </div>
-          </div>
-          <div class="skcard">
-            <h3><i class="ic">◆</i>Specializations</h3>
-            <div class="chips">
-              {['Custom themes','Liquid templating','Headless storefronts','Checkout customization','Technical SEO','CRO','Schema markup','Reverse proxy'].map((c) => <span class="chip">{c}</span>)}
-            </div>
-          </div>
-          <div class="skcard span2">
-            <h3><i class="ic">◆</i>Advanced automation &amp; AI engineering</h3>
-            <div class="chips">
-              {['Claude + MCP','n8n pipelines','MainWP network','Cloudflare Workers','LLM quality-gates','Telegram approvals','GSC + GA4 via MCP','WP → Next.js migrations'].map((c) => <span class="chip">{c}</span>)}
-            </div>
-          </div>
-        </div>
-      </section>
+    <div class="techstrip">
+      <VelocityMarquee client:visible items={stack} />
+    </div>
 
-      <section id="experience">
-        <p class="sh"><span class="n">02</span> Experience</p>
-        {jobs.map((j) => (
-          <div class="job">
-            <div class="yr">{j.yr}</div>
-            <div>
-              <h3>{j.role} — <span>{j.org}</span></h3>
-              <p>{j.desc}</p>
+    <!-- ================= CASE STUDIES ================= -->
+    <section id="work" class="wrap" data-formation="1" data-intensity="0.5">
+      <header class="sec-head" data-r>
+        <p class="sh"><span class="n">01</span> Selected work</p>
+        <h2>Products taken from schema to storefront.</h2>
+      </header>
+      <div class="bento">
+        {caseStudies.map((c, i) => (
+          <article class={`cs cs-${c.size}`} data-tilt="5" data-r={i % 3} id={`cs-${c.id}`}>
+            <div class="cs-inner">
+              {c.thumb && (
+                <figure class="shot">
+                  <div class="chrome" aria-hidden="true"><i></i><i></i><i></i><span>{c.links[0]?.label}</span></div>
+                  <img src={c.thumb} alt={`${c.name} homepage`} width="1200" height="750" loading="lazy" decoding="async" />
+                </figure>
+              )}
+              <div class="cs-body">
+                <p class="kicker">{c.kicker}{c.status && <span class="status">{c.status}</span>}</p>
+                <h3>{c.name}</h3>
+                <p class="summary">{c.summary}</p>
+                <ul class="points">
+                  {(c.size === 'md' ? c.points.slice(0, 1) : c.points).map((p) => <li>{p}</li>)}
+                </ul>
+                <ul class="tags" aria-label="Stack">
+                  {c.stack.map((s) => <li>{s}</li>)}
+                </ul>
+                <div class="cs-links">
+                  {c.links.length
+                    ? c.links.map((l) => <a href={l.href} target="_blank" rel="noopener">{l.label} ↗</a>)
+                    : <span class="private">private repository</span>}
+                </div>
+              </div>
             </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- ================= CAPABILITIES ================= -->
+    <section id="stack" class="wrap" data-formation="1" data-intensity="0.75">
+      <header class="sec-head" data-r>
+        <p class="sh"><span class="n">02</span> Capabilities</p>
+        <h2>One engineer, every layer.</h2>
+      </header>
+      <div class="layers">
+        {capabilities.map((cap, i) => (
+          <div class="layer" data-r={i}>
+            <p class="layer-n">L{String(capabilities.length - i).padStart(2, '0')}</p>
+            <h3>{cap.title}</h3>
+            <ul class="chips">{cap.items.map((it) => <li>{it}</li>)}</ul>
           </div>
         ))}
-      </section>
+      </div>
+    </section>
 
-      <section id="work">
-        <p class="sh"><span class="n">03</span> Client work · 21 sites</p>
-        <div class="filters" role="group" aria-label="Filter by platform">
-          <button class="filt" data-f="all" aria-pressed="true">all</button>
-          <button class="filt" data-f="sh" aria-pressed="false">Shopify · 11</button>
-          <button class="filt" data-f="rc" aria-pressed="false">React · 1</button>
-          <button class="filt" data-f="wp" aria-pressed="false">WordPress · 4</button>
-          <button class="filt" data-f="cr" aria-pressed="false">Crypto / Media · 5</button>
-        </div>
-        <div class="grid" id="grid">
-          {sites.map(([dom, plat]) => (
-            <a class="card" data-plat={plat} href={`https://${dom}`} rel="noopener" target="_blank">
-              {NO_THUMB.has(dom)
-                ? <div class="thumb" style={`background:var(--${plat}-bg)`}>{dom[0].toUpperCase()}</div>
-                : <img
-                    class="thumb-img"
-                    src={`/thumbs/${slugify(dom)}.jpg`}
-                    alt={`Screenshot of the ${dom} website`}
-                    width="600" height="375"
-                    loading="lazy" decoding="async"
-                    style={`background:var(--${plat}-bg)`}
-                  />}
-              <div class="body">
-                <div class="dom">{dom}</div>
-                <span class={`badge b-${plat}`}>{LABEL[plat]}</span>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <section id="automation">
-        <p class="sh"><span class="n">04</span> Automation &amp; AI engineering</p>
-        <p class="lead" style="margin-bottom:26px">Flagship builds where I turned repetitive publishing and SEO work into reliable, human-approved pipelines.</p>
-        {automations.map((a) => (
-          <div class="autocard">
-            <h3><i class="ic">▣</i> {a.title}</h3>
+    <!-- ================= AUTOMATION ================= -->
+    <section id="automation" class="wrap" data-formation="2" data-intensity="0.7">
+      <header class="sec-head" data-r>
+        <p class="sh"><span class="n">03</span> Automation &amp; AI engineering</p>
+        <h2>Pipelines with a human in the loop.</h2>
+        <p class="lead">Repetitive publishing, SEO and QA work, turned into reliable pipelines that still ask a person before anything goes live.</p>
+      </header>
+      <div class="autos">
+        {automations.map((a, i) => (
+          <article class="auto" data-r={i % 2}>
+            <h3>{a.title}</h3>
             <p class="tag">{a.tag}</p>
             <p class="desc" set:html={a.desc} />
-            <div class="flow">
-              {a.flow.map((n, i) => (
-                <>
-                  <span class={a.hot.includes(i) ? 'node hot' : 'node'}>{n}</span>
-                  {i < a.flow.length - 1 && <span class="arrow">→</span>}
-                </>
+            <div class="flow" style={`--n:${a.flow.length}`}>
+              {a.flow.map((n, j) => (
+                <span class={a.hot.includes(j) ? 'node hot' : 'node'} style={`--i:${j}`}>{n}</span>
               ))}
             </div>
-            <p class="stackline">Result — <b>{a.result}</b></p>
-          </div>
+            <p class="result">Result: <b>{a.result}</b></p>
+          </article>
         ))}
-      </section>
+      </div>
+    </section>
 
-      <section id="projects">
-        <p class="sh"><span class="n">05</span> Personal projects</p>
-        <div class="proj">
-          {projects.map((p) => (
-            <div class="pcard">
-              <div class="ico">◈</div>
-              <h3>{p.title}</h3>
-              <p>{p.desc}</p>
-              <a class="plink" href={p.link} rel="noopener">{p.label}</a>
+    <!-- ================= EXPERIENCE ================= -->
+    <section id="experience" class="wrap">
+      <header class="sec-head" data-r>
+        <p class="sh"><span class="n">04</span> Experience</p>
+        <h2>Five teams, one habit: ship it measured.</h2>
+      </header>
+      <ol class="timeline">
+        {jobs.map((j, i) => (
+          <li class="job" data-r={i % 2}>
+            <p class="yr">{j.yr}</p>
+            <div>
+              <h3>{j.role} <span>· {j.org}</span></h3>
+              <p>{j.desc}</p>
             </div>
-          ))}
-        </div>
-      </section>
+          </li>
+        ))}
+      </ol>
+    </section>
 
-      <footer id="contact">
-        <h2>Let's build something that converts.</h2>
-        <p>Open to Shopify, WordPress, and React work — from custom storefronts to automation pipelines. The fastest way to reach me:</p>
-        <div class="contacts">
-          <a class="cbtn" href="mailto:umaildanish776@gmail.com">✦ umaildanish776@gmail.com</a>
-          <a class="cbtn" href="tel:+919113021043">✦ +91 91130 21043</a>
-          <a class="cbtn" href="https://github.com/1MrHad1" rel="noopener">✦ github.com/1MrHad1</a>
-        </div>
-        <p class="foot-note">B.E. Computer Science · Maharaja Institute of Technology, Mysore // Built with Astro · deployed on Netlify.</p>
-      </footer>
-    </main>
-  </div>
+    <!-- ================= CLIENTS ================= -->
+    <section id="clients" class="wrap" data-formation="3" data-intensity="0.45">
+      <header class="sec-head" data-r>
+        <p class="sh"><span class="n">05</span> Client work · {sites.length} sites</p>
+        <h2>Live sites, across four platforms.</h2>
+      </header>
+      <div class="filters" role="group" aria-label="Filter by platform" data-r>
+        <button class="filt" data-f="all" aria-pressed="true">all · {sites.length}</button>
+        {platforms.map((p) => (
+          <button class="filt" data-f={p} aria-pressed="false">{PLATFORM_LABEL[p]} · {countFor(p)}</button>
+        ))}
+      </div>
+      <div class="grid" id="grid">
+        {sites.map(([dom, plat], i) => (
+          <a class="site" data-plat={plat} href={`https://${dom}`} rel="noopener" target="_blank" data-tilt="8" data-r={i % 3}>
+            <img
+              src={`/thumbs/${slugify(dom)}.jpg`}
+              alt={`Screenshot of the ${dom} website`}
+              width="600" height="375"
+              loading="lazy" decoding="async"
+            />
+            <div class="site-body">
+              <span class="dom">{dom}</span>
+              <span class={`badge b-${plat}`}>{PLATFORM_LABEL[plat]}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- ================= EARLY WORK ================= -->
+    <section id="early" class="wrap">
+      <header class="sec-head" data-r>
+        <p class="sh"><span class="n">06</span> Early projects</p>
+      </header>
+      <div class="early">
+        {earlyWork.map((p, i) => (
+          <a class="early-card" href={p.link} rel="noopener" target="_blank" data-r={i}>
+            <h3>{p.title}</h3>
+            <p>{p.desc}</p>
+            <span class="plink">{p.label}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section id="contact" class="wrap contact" data-formation="4" data-intensity="1">
+      <p class="eyebrow" data-r>Contact</p>
+      <h2 data-r>Let's build something<br />that <em>converts</em>.</h2>
+      <p class="lead" data-r>Full-stack builds, Shopify storefronts, WordPress → Next.js migrations and automation pipelines. The fastest way to reach me:</p>
+      <div class="contacts" data-r>
+        <a class="btn" href="mailto:umaildanish776@gmail.com" data-magnetic>umaildanish776@gmail.com</a>
+        <a class="btn btn-ghost" href="tel:+919113021043">+91 91130 21043</a>
+        <a class="btn btn-ghost" href="https://github.com/1MrHad1" rel="noopener" target="_blank">github.com/1MrHad1 ↗</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <p>B.E. Computer Science · Maharaja Institute of Technology, Mysore</p>
+    <p>Built with Astro, Three.js and GSAP · deployed on Netlify</p>
+  </footer>
 
   <script>
-    const root = document.documentElement;
-    const toggle = document.getElementById('themeToggle');
-    function current() {
-      return root.getAttribute('data-theme') || 'dark';
-    }
-    toggle?.addEventListener('click', () => {
-      const next = current() === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      try { localStorage.setItem('theme', next); } catch (e) {}
-    });
-
-    // Cursor spotlight on client-work cards (CSS does the drawing).
-    document.querySelectorAll<HTMLElement>('.card').forEach((c) => {
-      c.addEventListener('pointermove', (e) => {
-        const r = c.getBoundingClientRect();
-        c.style.setProperty('--mx', `${e.clientX - r.left}px`);
-        c.style.setProperty('--my', `${e.clientY - r.top}px`);
-      });
-    });
-
-    const grid = document.getElementById('grid');
-    document.querySelectorAll('.filt').forEach((b) => {
-      b.addEventListener('click', () => {
-        document.querySelectorAll('.filt').forEach((x) => x.setAttribute('aria-pressed', 'false'));
-        b.setAttribute('aria-pressed', 'true');
-        const f = b.getAttribute('data-f');
-        grid?.querySelectorAll('.card').forEach((c) => {
-          const show = f === 'all' || c.getAttribute('data-plat') === f;
-          (c as HTMLElement).style.display = show ? '' : 'none';
-        });
-      });
-    });
+    import '../scripts/app';
   </script>
 </Layout>
