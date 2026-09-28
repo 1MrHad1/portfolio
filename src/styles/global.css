@@ -157,13 +157,6 @@ main > section { padding-block: var(--rhythm) 0; scroll-margin-top: 72px; }
 .metric .v em { color: var(--tx); }
 .metric .l { font-family: var(--mono); font-size: 11.5px; color: var(--tx3); margin-top: 10px; line-height: 1.4; }
 
-.techstrip {
-  position: relative; z-index: 1; margin-top: var(--rhythm); padding: 16px 0;
-  border-block: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 60%, transparent);
-  backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-}
 
 /* ---------- tilt + spotlight (shared by case studies and client tiles) ---------- */
 [data-tilt] { --rx: 0deg; --ry: 0deg; transform: perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry)); transition: transform .5s cubic-bezier(.2, .8, .2, 1), border-color .3s; transform-style: preserve-3d; }

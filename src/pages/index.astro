@@ -1,14 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ScrollReveal from '../components/ScrollReveal.tsx';
-import VelocityMarquee from '../components/VelocityMarquee.tsx';
 import CountUp from '../components/CountUp.tsx';
 import {
   sites,
   slugify,
   PLATFORM_LABEL,
   type Platform,
-  stack,
   caseStudies,
   capabilities,
   jobs,
@@ -75,9 +73,6 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
       </div>
     </section>
 
-    <div class="techstrip">
-      <VelocityMarquee client:visible items={stack} baseVelocity={-0.5} scrollBoost={false} />
-    </div>
 
     <!-- ================= CASE STUDIES ================= -->
     <section id="work" class="wrap" data-formation="1" data-intensity="0.5">

@@ -40,5 +40,5 @@ cp -R /tmp/threejs-skills/skills/* ~/.claude/skills/
 
 - **Inspo MCP**: dark, technical developer and dev-tool sites. It pointed to a bento grid for
   case studies and a grotesk display face (Geist).
-- **21st.dev MCP**: the React island layer (`ScrollReveal`, `VelocityMarquee`, `CountUp`); see
+- **21st.dev MCP**: the React island layer (`ScrollReveal`, `CountUp`); see
   `docs/21st-dev-mcp.md`.

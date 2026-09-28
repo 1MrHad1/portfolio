@@ -34,11 +34,6 @@ export const profile = {
 
 export const slugify = (d: string) => d.replace(/[^a-z0-9]/g, '-');
 
-export const stack = [
-  'React 19', 'Next.js', 'TypeScript', 'Node.js', 'WordPress', 'WooCommerce', 'Shopify Liquid', 'Strapi 5',
-  'Supabase', 'PostgreSQL', 'Three.js', 'Astro', 'Headless commerce', 'Cloudflare Workers',
-  'n8n', 'Claude + MCP', 'GitHub Actions', 'Technical SEO',
-];
 
 export interface CaseStudy {
   id: string;

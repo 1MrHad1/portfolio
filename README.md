@@ -33,7 +33,7 @@ Performance guards:
 
 ## Stack
 
-- **Astro 5**: static output, React islands (`ScrollReveal`, `VelocityMarquee`, `CountUp`)
+- **Astro 5**: static output, React islands (`ScrollReveal`, `CountUp`)
 - **Three.js**: custom `ShaderMaterial`s, no post-processing
 - **GSAP ScrollTrigger + Lenis**: smooth scroll, reveals, section → formation triggers
 - **Tailwind 4** (utilities only) for 21st.dev components; see [docs/21st-dev-mcp.md](docs/21st-dev-mcp.md)
