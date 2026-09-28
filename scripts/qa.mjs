@@ -61,6 +61,12 @@ const missingFields = ['first-name', 'last-name', 'email', 'phone', 'project-typ
   .filter((n) => !new RegExp(`name="${n}"[^>]*required|required[^>]*name="${n}"`).test(form));
 check(missingFields.length === 0, `lead form has required name, email, phone and request fields${missingFields.length ? ` (missing: ${missingFields.join(', ')})` : ''}`);
 check((html.match(/\sdata-lead[\s>]/g) ?? []).length >= 2, 'lead popup has at least two triggers');
+// Browsers compile `pattern` with the `v` flag; an invalid one is silently ignored (and logs an error)
+const decode = (v) => v.replace(/&#(\d+);/g, (_, n) => String.fromCharCode(n)).replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+const badPatterns = [...html.matchAll(/\spattern="([^"]*)"/g)].map((m) => decode(m[1])).filter((p) => {
+  try { new RegExp(`^(?:${p})$`, 'v'); return false; } catch { return true; }
+});
+check(badPatterns.length === 0, `input patterns are valid for browsers${badPatterns.length ? ` (invalid: ${badPatterns.join(', ')})` : ''}`);
 
 if (failures.length) {
   console.error(`\n${failures.length} QA check(s) failed.`);

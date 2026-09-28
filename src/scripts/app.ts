@@ -249,7 +249,15 @@ async function bootField() {
     root.classList.add('no-webgl');
     return;
   }
-  const { createField } = await import('./field');
+  let createField: typeof import('./field').createField;
+  try {
+    ({ createField } = await import('./field'));
+  } catch (err) {
+    // A failed chunk load shouldn't leave an empty background: show the CSS fallback instead
+    console.warn('[field] 3D background failed to load, using the static fallback.', err);
+    root.classList.add('no-webgl');
+    return;
+  }
   try {
     field = createField(canvas, {
       reducedMotion,

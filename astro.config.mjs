@@ -16,5 +16,11 @@ export default defineConfig({
   // circular re-export and breaks the build).
   vite: {
     plugins: [tailwindcss()],
+    // Pre-bundle the animation libraries at startup. three is only reached through a dynamic
+    // import, so without this Vite discovers it late, re-optimizes mid-session and serves
+    // "504 Outdated Optimize Dep", which leaves the 3D field blank until a hard reload.
+    optimizeDeps: {
+      include: ['three', 'gsap', 'gsap/ScrollTrigger', 'lenis'],
+    },
   },
 });

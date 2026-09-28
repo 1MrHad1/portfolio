@@ -1,5 +1,8 @@
 ---
 import { leadForm as f } from '../data/portfolio';
+
+// Browsers compile `pattern` with the regex `v` flag, where ( ) - + must be escaped inside [...]
+const PHONE_PATTERN = '[\\+0-9 \\(\\)\\-]{7,20}';
 ---
 <!--
   Get-in-touch popup. Netlify detects this form in the built HTML (data-netlify) and stores
@@ -36,7 +39,7 @@ import { leadForm as f } from '../data/portfolio';
         <label class="field">
           <span>Phone <i>*</i></span>
           <input name="phone" type="tel" autocomplete="tel" inputmode="tel" required
-            pattern="[+0-9 ()\-]{7,20}" placeholder="+91 98765 43210" />
+            pattern={PHONE_PATTERN} placeholder="+91 98765 43210" />
         </label>
       </div>
       <label class="field">
