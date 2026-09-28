@@ -8,7 +8,7 @@ const PHONE_PATTERN = '[\\+0-9 \\(\\)\\-]{7,20}';
   Get-in-touch popup. Netlify detects this form in the built HTML (data-netlify) and stores
   submissions under Forms → "lead". JS posts it with fetch so the visitor never leaves the page.
 -->
-<dialog class="lead" id="lead" aria-labelledby="lead-title" data-error={f.error} data-email={f.email}>
+<dialog class="lead-modal" id="lead" aria-labelledby="lead-title" data-error={f.error} data-email={f.email}>
   <div class="lead-card">
     <button class="lead-x" type="button" data-lead-close aria-label="Close">✕</button>
     <p class="eyebrow">Get in touch</p>

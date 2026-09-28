@@ -68,6 +68,15 @@ const badPatterns = [...html.matchAll(/\spattern="([^"]*)"/g)].map((m) => decode
 });
 check(badPatterns.length === 0, `input patterns are valid for browsers${badPatterns.length ? ` (invalid: ${badPatterns.join(', ')})` : ''}`);
 
+// Regression: the popup once used class "lead", which is also the intro-paragraph class, so every
+// paragraph became a white card. Paragraph .lead rules must never carry box styling.
+const { readdir } = await import('node:fs/promises');
+const cssFiles = (await readdir(join(dist, '_astro'))).filter((f) => f.endsWith('.css'));
+const css = (await Promise.all(cssFiles.map((f) => readFile(join(dist, '_astro', f), 'utf8')))).join('\n')
+  + [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((m) => m[1]).join('\n');
+const leadRules = [...css.matchAll(/(?:^|[}\s,])\.lead(?![\w-])[^{}]*\{([^}]*)\}/g)].map((m) => m[1]);
+check(leadRules.length > 0 && leadRules.every((r) => !/background|border|box-shadow/.test(r)), '.lead paragraphs carry no card styling (no popup styles leaking)');
+
 if (failures.length) {
   console.error(`\n${failures.length} QA check(s) failed.`);
   process.exit(1);
