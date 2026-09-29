@@ -210,3 +210,28 @@ export const threeLab = {
     'Configuration → Shopify variant + line-item properties via /cart/add.js, with a Liquid section',
   ],
 };
+
+/** Backend personal project, kept separate from client work (same framing as the Three.js lab). */
+export const backendProject = {
+  name: 'shopify-apparel-sync',
+  kicker: 'Personal project · Shopify backend',
+  summary:
+    'A Shopify backend for an apparel brand that keeps the store, a PostgreSQL database and a warehouse in sync. It’s built to be safe when things go wrong: duplicate webhooks, rate limits, retries and sales landing mid-sync.',
+  points: [
+    'HMAC-verified, deduplicated webhooks for orders, inventory and products, handled as idempotent upserts in transactions',
+    'Admin GraphQL client with cost-based throttling, retries and token refresh; client credentials grant with cached 24-hour tokens',
+    'Warehouse stock over REST and SOAP, pushed to Shopify with compare-and-swap and idempotency keys, big jumps held for review, every change ledgered',
+    'PostgreSQL schema for size × colour variants, stock, orders and a ledger; 33 tests, Docker, CI against a real Postgres 16',
+  ],
+  tags: ['Node.js', 'TypeScript', 'Fastify', 'PostgreSQL', 'Shopify Admin GraphQL', 'Webhooks', 'SOAP / XML', 'Vitest', 'Docker', 'GitHub Actions'],
+  repo: 'https://github.com/1MrHad1/shopify-apparel-sync',
+  demo: [
+    '$ npm run demo',
+    '▸ catalogue pull      { products: 3, variants: 30, levels: 30 }',
+    '▸ orders/create       200 {"ok":true}',
+    '▸ same delivery       200 {"duplicate":true}',
+    '▸ forged signature    401 {"error":"invalid signature"}',
+    '▸ reconcile (SOAP)    applied 17 · held 13 · failed 0',
+    '▸ /api/stock/low      TL-CHN-KHK-32  Khaki 32   0 left',
+  ],
+};

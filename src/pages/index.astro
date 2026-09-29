@@ -15,6 +15,7 @@ import {
   earlyWork,
   profile,
   threeLab,
+  backendProject,
   LAB_URL,
   LAB_REPO,
 } from '../data/portfolio';
@@ -32,6 +33,7 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
     <nav class="nav-links" aria-label="Sections">
       <a href="#work">work</a>
       <a href="#lab">3d lab</a>
+      <a href="#backend">backend</a>
       <a href="#stack">stack</a>
       <a href="#automation">automation</a>
       <a href="#experience">experience</a>
@@ -149,10 +151,34 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
       </ul>
     </section>
 
+    <!-- ================= BACKEND PROJECT ================= -->
+    <section id="backend" class="wrap" data-formation="2" data-intensity="0.45">
+      <header class="sec-head" data-r>
+        <p class="sh"><span class="n">03</span> Backend · personal project</p>
+        <h2>Shopify backend, built for failure.</h2>
+      </header>
+      <article class="be-card" data-r>
+        <div class="be-body">
+          <p class="kicker">{backendProject.kicker}</p>
+          <h3>{backendProject.name}</h3>
+          <p class="summary">{backendProject.summary}</p>
+          <ul class="points">{backendProject.points.map((p) => <li>{p}</li>)}</ul>
+          <ul class="tags" aria-label="Stack">{backendProject.tags.map((t) => <li>{t}</li>)}</ul>
+          <div class="cs-links">
+            <a href={backendProject.repo} target="_blank" rel="noopener">Source + README ↗</a>
+          </div>
+        </div>
+        <figure class="be-term" aria-label="Output of npm run demo">
+          <div class="chrome" aria-hidden="true"><i></i><i></i><i></i><span>terminal</span></div>
+          <pre><code>{backendProject.demo.join('\n')}</code></pre>
+        </figure>
+      </article>
+    </section>
+
     <!-- ================= CAPABILITIES ================= -->
     <section id="stack" class="wrap" data-formation="1" data-intensity="0.75">
       <header class="sec-head" data-r>
-        <p class="sh"><span class="n">03</span> Capabilities</p>
+        <p class="sh"><span class="n">04</span> Capabilities</p>
         <h2>One engineer, every layer.</h2>
       </header>
       <div class="layers">
@@ -169,7 +195,7 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
     <!-- ================= AUTOMATION ================= -->
     <section id="automation" class="wrap" data-formation="2" data-intensity="0.7">
       <header class="sec-head" data-r>
-        <p class="sh"><span class="n">04</span> Automation &amp; AI engineering</p>
+        <p class="sh"><span class="n">05</span> Automation &amp; AI engineering</p>
         <h2>Pipelines with a human in the loop.</h2>
         <p class="lead">Repetitive publishing, SEO and QA work, turned into reliable pipelines that still ask a person before anything goes live.</p>
       </header>
@@ -193,7 +219,7 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
     <!-- ================= EXPERIENCE ================= -->
     <section id="experience" class="wrap">
       <header class="sec-head" data-r>
-        <p class="sh"><span class="n">05</span> Experience</p>
+        <p class="sh"><span class="n">06</span> Experience</p>
         <h2>Five teams, one habit: ship it measured.</h2>
       </header>
       <ol class="timeline">
@@ -212,7 +238,7 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
     <!-- ================= CLIENTS ================= -->
     <section id="clients" class="wrap" data-formation="3" data-intensity="0.45">
       <header class="sec-head" data-r>
-        <p class="sh"><span class="n">06</span> Client work · {sites.length} sites</p>
+        <p class="sh"><span class="n">07</span> Client work · {sites.length} sites</p>
         <h2>Live sites, across four platforms.</h2>
       </header>
       <div class="filters" role="group" aria-label="Filter by platform" data-r>
@@ -242,7 +268,7 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
     <!-- ================= EARLY WORK ================= -->
     <section id="early" class="wrap">
       <header class="sec-head" data-r>
-        <p class="sh"><span class="n">07</span> Early projects</p>
+        <p class="sh"><span class="n">08</span> Early projects</p>
       </header>
       <div class="early">
         {earlyWork.map((p, i) => (

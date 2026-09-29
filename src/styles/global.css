@@ -223,6 +223,16 @@ main > section { padding-block: var(--rhythm) 0; scroll-margin-top: 72px; }
 @media (max-width: 860px) { .lab-notes { grid-template-columns: 1fr; } }
 .lab-notes li { position: relative; padding: 14px 0 0 0; border-top: 1px solid var(--line-2); font-size: 14px; color: var(--tx2); }
 
+/* ---------- backend project ---------- */
+.be-card { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 0; border-radius: 22px; overflow: hidden; background: var(--panel); border: 1px solid var(--line); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); }
+@media (max-width: 980px) { .be-card { grid-template-columns: minmax(0, 1fr); } }
+.be-body { padding: clamp(20px, 2.4vw, 32px); display: flex; flex-direction: column; }
+.be-body h3 { font-size: clamp(24px, 2.4vw, 32px); margin-top: 12px; font-family: var(--mono); letter-spacing: -.02em; }
+.be-term { margin: 0; padding: 18px; display: flex; flex-direction: column; background: color-mix(in srgb, var(--bg) 60%, transparent); border-left: 1px solid var(--line); }
+@media (max-width: 980px) { .be-term { border-left: 0; border-top: 1px solid var(--line); } }
+.be-term pre { margin: 0; flex: 1; padding: 16px; border: 1px solid var(--line); border-top: 0; border-radius: 0 0 12px 12px; background: #06080a; color: #cfe9e4; font: 12.5px/1.75 var(--mono); overflow-x: auto; white-space: pre; }
+:root[data-theme='light'] .be-term pre { background: #0f1317; }
+
 /* ---------- capabilities as stacked layers ---------- */
 .layers { display: grid; gap: 10px; }
 .layer {
