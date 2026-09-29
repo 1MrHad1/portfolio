@@ -175,3 +175,38 @@ export const leadForm = {
   error: 'That didn’t send. Please try again, or email me directly at',
   email: 'umaildanish776@gmail.com',
 };
+
+/**
+ * Three.js lab: personal projects. Kept separate from client work on purpose. These are
+ * self-directed builds, not paid Three.js engagements.
+ */
+export const LAB_URL = 'https://haseeb-threejs-configurators.netlify.app';
+export const LAB_REPO = 'https://github.com/1MrHad1/threejs-configurators';
+
+export const threeLab = {
+  intro:
+    'My Three.js work so far is personal: this portfolio’s particle field and two 3D product configurators. My client work hasn’t needed 3D yet, so I built these to show how I’d ship a configurator on a real store.',
+  projects: [
+    {
+      id: 'nfc-card',
+      name: 'NFC card configurator',
+      summary: 'PVC, metal or wood; colours and finishes; live name, title and logo, printed or laser-engraved with real surface depth; front/back flip; pack pricing mirroring a live Shopify catalogue.',
+      tags: ['Three.js', 'TypeScript', 'PBR materials', 'Canvas textures', 'Shopify Cart API'],
+      path: '/card/',
+      thumb: '/lab/nfc-card.jpg',
+    },
+    {
+      id: 'lounge-chair',
+      name: 'Lounge chair configurator',
+      summary: 'Swap legs, arms and pillow; bouclé, velvet or leather; wood and metal finishes; three sizes with live dimensions. The GLB is compressed from 747 KB to 72 KB with meshopt.',
+      tags: ['GLB / glTF', 'meshopt', 'Part variants', 'Hotspots', 'Camera animation'],
+      path: '/chair/',
+      thumb: '/lab/lounge-chair.jpg',
+    },
+  ],
+  highlights: [
+    'Renders only when something changes, so an idle page uses no GPU',
+    'Parts, variants and hotspots driven by glTF extras, not hard-coded mesh names',
+    'Configuration → Shopify variant + line-item properties via /cart/add.js, with a Liquid section',
+  ],
+};

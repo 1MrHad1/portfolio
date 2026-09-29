@@ -208,6 +208,21 @@ main > section { padding-block: var(--rhythm) 0; scroll-margin-top: 72px; }
 .cs-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .private { color: var(--tx3); }
 
+/* ---------- three.js lab ---------- */
+.lab { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 860px) { .lab { grid-template-columns: 1fr; } }
+.lab-card { position: relative; border-radius: 22px; overflow: hidden; background: var(--panel); border: 1px solid var(--line); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); display: flex; flex-direction: column; }
+.lab-card:hover { border-color: var(--line-2); }
+.lab-shot { position: relative; display: block; overflow: hidden; border-bottom: 1px solid var(--line); background: #efeee9; }
+.lab-shot img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
+.lab-card:hover .lab-shot img { transform: scale(1.04); }
+.lab-live { position: absolute; left: 14px; bottom: 14px; font-family: var(--mono); font-size: 11.5px; color: #0b0d10; background: rgba(255, 255, 255, .88); border-radius: 99px; padding: 5px 10px; }
+.lab-body { padding: clamp(20px, 2.4vw, 28px); display: flex; flex-direction: column; flex: 1; }
+.lab-body h3 { font-size: clamp(22px, 2.2vw, 28px); margin-top: 12px; }
+.lab-notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 22px; }
+@media (max-width: 860px) { .lab-notes { grid-template-columns: 1fr; } }
+.lab-notes li { position: relative; padding: 14px 0 0 0; border-top: 1px solid var(--line-2); font-size: 14px; color: var(--tx2); }
+
 /* ---------- capabilities as stacked layers ---------- */
 .layers { display: grid; gap: 10px; }
 .layer {

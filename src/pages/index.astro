@@ -14,6 +14,9 @@ import {
   automations,
   earlyWork,
   profile,
+  threeLab,
+  LAB_URL,
+  LAB_REPO,
 } from '../data/portfolio';
 
 const platforms = Object.keys(PLATFORM_LABEL) as Platform[];
@@ -28,6 +31,7 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
     <a class="logo" href="#top" aria-label="Haseeb Ahmed Danish, back to top">haseeb<span>.</span></a>
     <nav class="nav-links" aria-label="Sections">
       <a href="#work">work</a>
+      <a href="#lab">3d lab</a>
       <a href="#stack">stack</a>
       <a href="#automation">automation</a>
       <a href="#experience">experience</a>
@@ -113,10 +117,42 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
       </div>
     </section>
 
+    <!-- ================= THREE.JS LAB ================= -->
+    <section id="lab" class="wrap" data-formation="1" data-intensity="0.45">
+      <header class="sec-head" data-r>
+        <p class="sh"><span class="n">02</span> Three.js lab · personal projects</p>
+        <h2>3D product configurators.</h2>
+        <p class="lead">{threeLab.intro}</p>
+      </header>
+      <div class="lab">
+        {threeLab.projects.map((p, i) => (
+          <article class="lab-card" data-tilt="5" data-r={i}>
+            <a class="lab-shot" href={`${LAB_URL}${p.path}`} target="_blank" rel="noopener" aria-label={`Open the ${p.name}`}>
+              <img src={p.thumb} alt={`${p.name} running in the browser`} width="1200" height="750" loading="lazy" decoding="async" />
+              <span class="lab-live">Live 3D ↗</span>
+            </a>
+            <div class="lab-body">
+              <p class="kicker">Personal project<span class="status">Three.js</span></p>
+              <h3>{p.name}</h3>
+              <p class="summary">{p.summary}</p>
+              <ul class="tags" aria-label="Techniques">{p.tags.map((t) => <li>{t}</li>)}</ul>
+              <div class="cs-links">
+                <a href={`${LAB_URL}${p.path}`} target="_blank" rel="noopener">Open configurator ↗</a>
+                <a href={LAB_REPO} target="_blank" rel="noopener">Source ↗</a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+      <ul class="lab-notes" data-r="1">
+        {threeLab.highlights.map((h) => <li>{h}</li>)}
+      </ul>
+    </section>
+
     <!-- ================= CAPABILITIES ================= -->
     <section id="stack" class="wrap" data-formation="1" data-intensity="0.75">
       <header class="sec-head" data-r>
-        <p class="sh"><span class="n">02</span> Capabilities</p>
+        <p class="sh"><span class="n">03</span> Capabilities</p>
         <h2>One engineer, every layer.</h2>
       </header>
       <div class="layers">
@@ -133,7 +169,7 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
     <!-- ================= AUTOMATION ================= -->
     <section id="automation" class="wrap" data-formation="2" data-intensity="0.7">
       <header class="sec-head" data-r>
-        <p class="sh"><span class="n">03</span> Automation &amp; AI engineering</p>
+        <p class="sh"><span class="n">04</span> Automation &amp; AI engineering</p>
         <h2>Pipelines with a human in the loop.</h2>
         <p class="lead">Repetitive publishing, SEO and QA work, turned into reliable pipelines that still ask a person before anything goes live.</p>
       </header>
@@ -157,7 +193,7 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
     <!-- ================= EXPERIENCE ================= -->
     <section id="experience" class="wrap">
       <header class="sec-head" data-r>
-        <p class="sh"><span class="n">04</span> Experience</p>
+        <p class="sh"><span class="n">05</span> Experience</p>
         <h2>Five teams, one habit: ship it measured.</h2>
       </header>
       <ol class="timeline">
@@ -176,7 +212,7 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
     <!-- ================= CLIENTS ================= -->
     <section id="clients" class="wrap" data-formation="3" data-intensity="0.45">
       <header class="sec-head" data-r>
-        <p class="sh"><span class="n">05</span> Client work · {sites.length} sites</p>
+        <p class="sh"><span class="n">06</span> Client work · {sites.length} sites</p>
         <h2>Live sites, across four platforms.</h2>
       </header>
       <div class="filters" role="group" aria-label="Filter by platform" data-r>
@@ -206,7 +242,7 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
     <!-- ================= EARLY WORK ================= -->
     <section id="early" class="wrap">
       <header class="sec-head" data-r>
-        <p class="sh"><span class="n">06</span> Early projects</p>
+        <p class="sh"><span class="n">07</span> Early projects</p>
       </header>
       <div class="early">
         {earlyWork.map((p, i) => (
