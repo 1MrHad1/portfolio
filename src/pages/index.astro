@@ -11,6 +11,7 @@ import {
   caseStudies,
   capabilities,
   jobs,
+  experienceHeading,
   automations,
   earlyWork,
   profile,
@@ -220,7 +221,7 @@ const countFor = (p: Platform) => sites.filter(([, plat]) => plat === p).length;
     <section id="experience" class="wrap">
       <header class="sec-head" data-r>
         <p class="sh"><span class="n">06</span> Experience</p>
-        <h2>Five teams, one habit: ship it measured.</h2>
+        <h2>{experienceHeading}</h2>
       </header>
       <ol class="timeline">
         {jobs.map((j, i) => (
