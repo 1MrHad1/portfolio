@@ -25,7 +25,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run capture:work
       - run: npm run capture:thumbs
-      - uses: peter-evans/create-pull-request@v7
+      - uses: peter-evans/create-pull-request@v8
         with:
           branch: chore/refresh-screenshots
           commit-message: 'chore: refresh site screenshots'
