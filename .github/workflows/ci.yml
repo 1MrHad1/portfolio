@@ -23,7 +23,7 @@ jobs:
       - run: npm run build
       - name: QA gate (meta, anchors, images, schema, content regressions)
         run: npm run qa
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist
